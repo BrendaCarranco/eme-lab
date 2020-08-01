@@ -6,7 +6,7 @@ const Building = () => {
         <div className="container-lg">
             <div className="row">
                 <div className="col">
-                    <img src={eme} alt="" className="img-fluid" />
+                    <img src={eme} alt="contact" className="img-fluid" />
                 </div>
             </div>
         </div>
