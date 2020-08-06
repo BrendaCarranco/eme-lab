@@ -1,0 +1,112 @@
+.card-signin {
+    border: 0;
+    border-radius: 1rem;
+}
+
+.container {
+    font-family: 'NeueMontreal';
+}
+
+.card-signin .card-title {
+    align-items: center;
+}
+
+.card-signin .card-body {
+    padding: 20rem;
+}
+
+.form-signin {
+    width: 100%;
+}
+
+.form-signin .btn {
+    font-size: 20px;
+    border-radius: none;
+    letter-spacing: 5px;
+    font-weight: bold;
+    padding: 20px;   
+}
+
+.form-label-group {
+    position: relative;
+    margin-bottom: 1rem;
+}
+.form-label-group input {
+    height: auto;
+    width: 80%;
+}
+.logo {
+    width: 50%;
+}
+
+.inputmodal {
+    width: 50%;
+
+}
+
+.modalregistro{
+    width: 50%;
+    margin: auto;
+    display: block;
+    font-family: 'NeueMontreal';
+}
+.btnmodal{
+    width: 50%;
+    margin: auto;
+    display: block;
+}
+
+
+@font-face {
+    font-family: 'NeueMontreal';
+    src: url(../../font/NeueMontreal-Regular.otf);
+    font-style: normal;
+    font-weight: 100;
+  }
+  @font-face {
+    font-family: 'NeueMontreal';
+    src: url(../../font/NeueMontreal-Medium.otf);
+    font-style: bold;
+    font-weight: 200;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
