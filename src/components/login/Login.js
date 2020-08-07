@@ -118,9 +118,6 @@ const Login = () => {
                 </div>
                 <button className='btn btn-m btn-dark btn-block text-uppercase rounded-0 btnmodal'>Ingresar</button>
                 </form>
-                {
-                    user !== '' ? (<div>Logueado</div>) : (<div>no logueado</div>)
-                }
                 <div>
                     <button className='btn btn-m btn-dark btn-block text-uppercase rounded-0 btnmodal' onClick={() => setModalIsOpen(false)}>Cerrar</button>
                 </div>
