@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { firebase } from '../../firebase';
+import moment from 'moment';
+import 'moment/locale/es';
 
-const Storage = () => {
+const Storage = ({ firebaseUser }) => {
     const [fileUrl, setFileUrl] = useState(null);
     const [usersFiles, setUsersFiles] = useState([]);
 
     const handleChangeFile = async e => {
-        console.log('hi file');
         const file = e.target.files[0];
-        const storageRef = firebase.storage().ref();
+        const storageRef = firebase.storage().ref('Cotizaciones').child(firebaseUser.email);
         const fileRef = storageRef.child(file.name);
         await fileRef.put(file);
         setFileUrl(await fileRef.getDownloadURL());
@@ -25,9 +26,11 @@ const Storage = () => {
 
         const newUserFile = {
             name: username,
-            avatar: fileUrl
+            fileLink: fileUrl,
+            date: Date.now()
         };
-        firebase.firestore().collection('files').doc(username).set(newUserFile);
+        //esta sube la imegen 
+        firebase.firestore().collection('files').doc(firebaseUser.email).set(newUserFile);
         setUsersFiles([
             ...usersFiles,
             { ...newUserFile }
@@ -62,10 +65,10 @@ const Storage = () => {
             <ul>
                 {
                     usersFiles.map(user => {
-                        return <li key={user.name}>
-                            <a href={user.avatar}>descarga</a>
-                            <img width='100' height='100' src={user.avatar} alt={user.name} />
-                            <p>{user.name}</p>
+                        return <li key={user.name} >
+                            <a href={user.fileLink}>descarga</a>
+                            <img width='100' height='100' src={user.fileLink} alt={user.name} />
+                            <p>{user.name} - {moment(user.date).format('LLL')} </p>
                         </li>;
                     })
                 }

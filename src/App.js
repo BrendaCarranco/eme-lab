@@ -36,7 +36,7 @@ function App() {
           <Login firebaseUser={firebaseUser} />
         </Route>
         <Route path='/storage'>
-          <Storage />
+          <Storage firebaseUser={firebaseUser} />
         </Route>
       </Switch>
     </BrowserRouter>
