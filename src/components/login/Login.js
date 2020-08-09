@@ -3,7 +3,9 @@ import { firebase } from '../../firebase';
 import './login.css'
 import logoeme from '../../img/logoeme.png';
 import Modal from 'react-modal';
-const Login = () => {
+import {withRouter} from 'react-router-dom'
+
+const Login = (props) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -46,6 +48,7 @@ const Login = () => {
             const res = await firebase.auth().signInWithEmailAndPassword(email, password);
             console.log(res.user);
             setUser(res.user.email);
+            props.history.push('/Inicio')
         } catch (err) {
             console.log(err);
             if (err.code === "auth/user-not-found") {
@@ -67,6 +70,7 @@ const Login = () => {
             setEmail('');
             setPassword('');
             setUser(res.user.email);
+            props.history.push('/Inicio')
 
 
         } catch (err) {
@@ -83,25 +87,25 @@ const Login = () => {
 
     return (
     <div className="container">
-        <div className="row">
-            <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
-            <div className="card card-signin my-5 border border-secondary rounded-0">
-            <div className='cad-body'>
+        <div className="row align-middle">
+            <div className="col">
             
-                <img src={logoeme} align="center" className="logo mx-auto d-block p-4"/>
+            
+                <img src={logoeme} className="mx-auto d-block pt-5 logo"/>
                
-                <form className="form-signin" onSubmit={handleLogin}>
-                    <div className="form-label-group pt-5">
-                    
-                    <input className="form-control rounded-0 mx-auto d-block" placeholder='Correo' type='email' onChange={e => setEmail(e.target.value)} />
-                    </div>
-                    <div className="form-label-group">
+                <form className="" onSubmit={handleLogin}>
+                <div className="form-group">
+                   <input className="form-control rounded-0" placeholder='Correo' type='email' onChange={e => setEmail(e.target.value)} />
+                </div>
+                <div className="form-group">  
+                   
+                    <input className="form-control rounded-0" placeholder='Contraseña' type='password' onChange={e => setPassword(e.target.value)} />
                   
-                    <input className="form-control rounded-0 mx-auto d-block" placeholder='Contraseña' type='password' onChange={e => setPassword(e.target.value)} />
-                    </div>
-                    <button className='btn btn-m btn-dark btn-block text-uppercase rounded-0' type='submit' >Ingresar</button>
+                </div>    
+                    <button className='btn btn-dark btn-lg btn-large mt-3' type='submit' >Ingresar</button>
                 </form>
-                <p className="login-wrapper-footer-text text-center pt-5">¿No tienes cuenta?
+                <div className="mx-auto d-block">
+                <p className="login-wrapper text-center">¿No tienes cuenta?
                 <a onClick={() => setModalIsOpen(true)} className="badge badge-light">Registrate aquí</a>
                 <Modal isOpen={modalIsOpen} className="card modalregistro">
                 <h1 className="card-title mx-auto d-block text-center">Registrarse</h1>
@@ -124,9 +128,9 @@ const Login = () => {
                 </div>
                 </Modal>
                 </p>
+                </div>
             </div>
-            </div>
-            </div>
+            
         </div>
     </div>
 
@@ -137,4 +141,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default withRouter(Login);

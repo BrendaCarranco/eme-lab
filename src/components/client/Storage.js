@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { firebase } from '../../firebase';
+import './Storage.css'
 
 const Storage = () => {
     const [fileUrl, setFileUrl] = useState(null);
@@ -46,7 +47,7 @@ const Storage = () => {
     }, []);
 
     return (
-        <div>
+        <div className="storage-body">
             <form onSubmit={handleSubmit}>
                 <input
                     type='file'
@@ -59,19 +60,21 @@ const Storage = () => {
                 />
                 <button>Submit</button>
             </form>
-            <ul>
-                {
-                    usersFiles.map(user => {
-                        return <li key={user.name}>
-                            <a href={user.avatar}>descarga</a>
-                            <img width='100' height='100' src={user.avatar} alt={user.name} />
-                            <p>{user.name}</p>
-                        </li>;
-                    })
-                }
-            </ul>
+         
         </div>
     );
 };
 
 export default Storage;
+
+/*<ul>
+{
+    usersFiles.map(user => {
+        return <li key={user.name}>
+            <a href={user.avatar}>descarga</a>
+            <img width='100' height='100' src={user.avatar} alt={user.name} />
+            <p>{user.name}</p>
+        </li>;
+    })
+}
+</ul> */

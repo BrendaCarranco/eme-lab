@@ -5,7 +5,8 @@ import Building from './components/buildingPage/Building';
 import Login from './components/login/Login';
 import Reset from './components/login/Reset';
 import Storage from './components/client/Storage';
-
+import Sidenav from './components/sidenav/Sidenav';
+import Navbar from './components/Navbar/Navbar';
 function App() {
 
   const [firebaseUser, setFirebaseUser] = useState(null);
@@ -35,7 +36,9 @@ function App() {
         <Route path='/login' >
           <Login firebaseUser={firebaseUser} />
         </Route>
-        <Route path='/storage'>
+        <Route path='/Inicio'>
+          <Navbar />
+          <Sidenav />
           <Storage />
         </Route>
       </Switch>
