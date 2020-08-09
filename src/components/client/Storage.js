@@ -7,6 +7,9 @@ const Storage = ({ firebaseUser }) => {
     const [fileUrl, setFileUrl] = useState(null);
     const [usersFiles, setUsersFiles] = useState([]);
 
+    let time = Date.now();
+    let timeFormat = moment(time).format('LLL');
+
     const handleChangeFile = async e => {
         const file = e.target.files[0];
         const storageRef = firebase.storage().ref('Cotizaciones').child(firebaseUser.email);
@@ -27,10 +30,10 @@ const Storage = ({ firebaseUser }) => {
         const newUserFile = {
             name: username,
             fileLink: fileUrl,
-            date: Date.now()
+            date: timeFormat
         };
         //esta sube la imegen 
-        firebase.firestore().collection('files').doc(firebaseUser.email).set(newUserFile);
+        firebase.firestore().collection('files').doc().set(newUserFile);
         setUsersFiles([
             ...usersFiles,
             { ...newUserFile }
@@ -68,7 +71,7 @@ const Storage = ({ firebaseUser }) => {
                         return <li key={user.name} >
                             <a href={user.fileLink}>descarga</a>
                             <img width='100' height='100' src={user.fileLink} alt={user.name} />
-                            <p>{user.name} - {moment(user.date).format('LLL')} </p>
+                            <p>{user.name} - {user.date} </p>
                         </li>;
                     })
                 }
