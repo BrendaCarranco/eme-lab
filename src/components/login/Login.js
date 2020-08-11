@@ -62,6 +62,21 @@ const Login = (props) => {
         try {
             const res = await firebase.auth().createUserWithEmailAndPassword(email, password);
             console.log(res.user);
+
+
+            /*                     var user = firebase.auth().currentUser;
+            
+                    user.updateProfile({
+                    displayName: "Jane Q. User" */
+
+            let current = firebase.auth().currentUser;
+            current.updateProfile({
+                displayName: name
+            });
+
+
+
+
             await firebase.firestore().collection('usuarios').doc(res.user.email).set({
                 email: res.user.email,
                 uid: res.user.uid,

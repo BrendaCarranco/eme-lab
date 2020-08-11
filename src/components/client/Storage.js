@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { firebase } from '../../firebase';
-import './Storage.css'
+import moment from 'moment';
+import 'moment/locale/es';
 
-const Storage = () => {
+const Storage = ({ firebaseUser }) => {
     const [fileUrl, setFileUrl] = useState(null);
     const [usersFiles, setUsersFiles] = useState([]);
 
+    let time = Date.now();
+    let timeFormat = moment(time).format('LLL');
+
     const handleChangeFile = async e => {
-        console.log('hi file');
         const file = e.target.files[0];
-        const storageRef = firebase.storage().ref();
+        const storageRef = firebase.storage().ref('Cotizaciones').child(firebaseUser.email);
         const fileRef = storageRef.child(file.name);
         await fileRef.put(file);
         setFileUrl(await fileRef.getDownloadURL());
@@ -26,9 +29,11 @@ const Storage = () => {
 
         const newUserFile = {
             name: username,
-            avatar: fileUrl
+            fileLink: fileUrl,
+            date: timeFormat
         };
-        firebase.firestore().collection('files').doc(username).set(newUserFile);
+        //esta sube la imegen 
+        firebase.firestore().collection('files').doc().set(newUserFile);
         setUsersFiles([
             ...usersFiles,
             { ...newUserFile }

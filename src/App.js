@@ -7,6 +7,8 @@ import Reset from './components/login/Reset';
 import Storage from './components/client/Storage';
 import Sidenav from './components/sidenav/Sidenav';
 import Navbar from './components/Navbar/Navbar';
+import Dashboard from './components/Dashboard/Dashboard';
+import SignInSide from './components/login/SignInSide';
 function App() {
 
   const [firebaseUser, setFirebaseUser] = useState(null);
@@ -37,10 +39,12 @@ function App() {
           <Login firebaseUser={firebaseUser} />
         </Route>
         <Route path='/Inicio'>
-          <Navbar />
-          <Sidenav />
-          <Storage />
+          <Dashboard />
         </Route>
+        <Route path='/SignIn'>
+          <SignInSide />
+        </Route>
+        
       </Switch>
     </BrowserRouter>
   );
