@@ -3,7 +3,7 @@ import { firebase } from '../../firebase';
 import moment from 'moment';
 import 'moment/locale/es';
 
-const Storage = ({ firebaseUser }) => {
+const Storage = ({ firebaseUser, fbName }) => {
     const [fileUrl, setFileUrl] = useState(null);
     const [usersFiles, setUsersFiles] = useState([]);
 
@@ -30,7 +30,8 @@ const Storage = ({ firebaseUser }) => {
         const newUserFile = {
             name: username,
             fileLink: fileUrl,
-            date: timeFormat
+            date: timeFormat,
+            user: fbName
         };
         //esta sube la imegen 
         firebase.firestore().collection('files').doc().set(newUserFile);

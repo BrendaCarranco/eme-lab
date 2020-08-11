@@ -9,16 +9,18 @@ import Storage from './components/client/Storage';
 function App() {
 
   const [firebaseUser, setFirebaseUser] = useState(null);
+  const [fbName, setFbName] = useState('');
 
   //Observador
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
       console.log(user);
+      setFbName(user.displayName);
       if (user) {
         setFirebaseUser(user);
       } else {
         setFirebaseUser(null);
-        return firebaseUser;
+        return;
       }
     });
   }, [firebaseUser]);
@@ -36,7 +38,7 @@ function App() {
           <Login firebaseUser={firebaseUser} />
         </Route>
         <Route path='/storage'>
-          <Storage firebaseUser={firebaseUser} />
+          <Storage firebaseUser={firebaseUser} fbName={fbName} />
         </Route>
       </Switch>
     </BrowserRouter>
