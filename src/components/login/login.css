@@ -1,0 +1,136 @@
+.container {
+    font-family: 'NeueMontreal';
+    width: 800px;
+}
+.col {
+   align-items: center;
+   justify-content: center;
+}
+.card .login{
+   
+    margin: auto;
+    display: block;
+    width: 800px;
+}
+
+
+.form-signin {
+    width: 100%;
+}
+.row .inputlogin {
+    margin: auto;
+    display: block;
+    align-items: center;
+    text-align: center;
+    border: 1px solid black;
+}
+input {
+    margin: auto;
+    display: block;
+}
+.btn-large {
+    font-size: 20px;
+    border-radius: 0px;
+    letter-spacing: 5px;
+    font-weight: bold;
+    margin: auto;
+    display: block;
+    font-family: 'NeueMontreal';
+    font-size: 15pt;  
+
+}
+
+
+.responsive-img .logo {
+    width: 500px;
+    margin: auto;
+    display: block;
+    
+
+}
+
+.inputmodal {
+    width: 50%;
+
+}
+
+.modalregistro{
+    width: 50%;
+    margin: auto;
+    display: block;
+    font-family: 'NeueMontreal';
+}
+.btnmodal{
+    width: 50%;
+    margin: auto;
+    display: block;
+}
+
+
+@font-face {
+    font-family: 'NeueMontreal';
+    src: url(../../font/NeueMontreal-Regular.otf);
+    font-style: normal;
+    font-weight: 100;
+  }
+
+  @font-face {
+    font-family: 'NeueMontreal';
+    src: url(../../font/NeueMontreal-Medium.otf);
+    font-style: bold;
+    font-weight: 200;
+  }
+  .form-group {
+      width: 60%;
+      margin: auto;
+      display: block;
+      padding-top: 5%;
+      
+  }
+  .form-control{
+      height: 50px;
+     
+  }
+  .registro {
+    margin: auto;
+    display: block;
+  }
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

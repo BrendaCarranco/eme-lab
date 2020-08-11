@@ -53,7 +53,7 @@ const Storage = ({ firebaseUser, fbName }) => {
     }, []);
 
     return (
-        <div>
+        <div className="storage-body">
             <form onSubmit={handleSubmit}>
                 <input
                     type='file'
@@ -66,19 +66,21 @@ const Storage = ({ firebaseUser, fbName }) => {
                 />
                 <button>Submit</button>
             </form>
-            <ul>
-                {
-                    usersFiles.map(user => {
-                        return <li key={user.name} >
-                            <a href={user.fileLink}>descarga</a>
-                            <img width='100' height='100' src={user.fileLink} alt={user.name} />
-                            <p>{user.name} - {user.date} </p>
-                        </li>;
-                    })
-                }
-            </ul>
+         
         </div>
     );
 };
 
 export default Storage;
+
+/*<ul>
+{
+    usersFiles.map(user => {
+        return <li key={user.name}>
+            <a href={user.avatar}>descarga</a>
+            <img width='100' height='100' src={user.avatar} alt={user.name} />
+            <p>{user.name}</p>
+        </li>;
+    })
+}
+</ul> */
