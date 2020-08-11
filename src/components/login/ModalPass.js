@@ -62,8 +62,9 @@ const useStyles = makeStyles((theme) => ({
 const ModalPass = ({ setModalPass, history }) => {
     const classes = useStyles();
 
-
     const [modalIsOpen, setModalIsOpen] = useState(true);
+    const [email, setEmail] = useState('');
+
 
     const closeModal = () => {
         /*         setModalIsOpen(false);
@@ -72,9 +73,6 @@ const ModalPass = ({ setModalPass, history }) => {
         setModalPass(false);
         setModalIsOpen(false);
     };
-
-    const [email, setEmail] = useState('');
-    //const [error, setError] = useState(null);
 
     const handleReset = e => {
         e.preventDefault();
@@ -97,10 +95,6 @@ const ModalPass = ({ setModalPass, history }) => {
             //setError(error.message);
         }
     }, [email, history]);
-
-
-
-
     return (
         <Fragment>
             {/*             <Modal isOpen={modalIsOpen} >
@@ -144,11 +138,7 @@ const ModalPass = ({ setModalPass, history }) => {
                                         onChange={e => setEmail(e.target.value)}
                                     />
                                 </Grid>
-
-
-
                             </Grid>
-
                             <Grid container justify="flex-end">
                                 <Grid item>
                                     <Button

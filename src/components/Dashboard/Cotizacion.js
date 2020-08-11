@@ -21,9 +21,9 @@ const useStyles = makeStyles({
 
 });
 
-
 const Cotizacion = ({ firebaseUser, setUsersFiles, usersFiles }) => {
   const [fileUrl, setFileUrl] = useState(null);
+  const [input, setInput] = useState('');
   //const [usersFiles, setUsersFiles] = useState([]);
 
   let time = Date.now();
@@ -42,6 +42,7 @@ const Cotizacion = ({ firebaseUser, setUsersFiles, usersFiles }) => {
     console.log('submit');
 
     const username = e.target.username.value;
+    setInput(username);
     if (!username) {
       return;
     }
@@ -60,6 +61,9 @@ const Cotizacion = ({ firebaseUser, setUsersFiles, usersFiles }) => {
       { ...newUserFile }
 
     ]);
+    setInput('');
+    setFileUrl('');
+    return alert('archivo subido');
   };
 
   /*   const emailUpdate = async () => {
@@ -104,6 +108,8 @@ const Cotizacion = ({ firebaseUser, setUsersFiles, usersFiles }) => {
             id="outlined-basic"
             label="Nombre"
             name='username'
+            onChange={e => setInput(e.target.value)}
+            value={input}
 
           />
           <TextField

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
+import { firebase } from '../../firebase';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -20,17 +21,19 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { mainListItems } from './listItems.js';
 import CardMedia from '@material-ui/core/CardMedia';
-import logoeme from '../../img/logoeme.png';
-import Cotizacion from './Cotizacion.js';
-import Historial from './Historial.js';
-import Membresias from './Membresias.js';
-import { firebase } from '../../firebase';
+import ListAltIcon from '@material-ui/icons/ListAlt';
+import LayersIcon from '@material-ui/icons/Layers';
+import DashboardIcon from '@material-ui/icons/Dashboard';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+
+import logoeme from '../../img/logoeme.png';
+import Cotizacion from './Cotizacion.js';
+import Historial from './Historial.js';
+import Membresias from './Membresias.js';
 
 function Copyright() {
   return (
@@ -85,7 +88,6 @@ const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
   },
-
   drawerPaper: {
     position: 'relative',
     whiteSpace: 'nowrap',
@@ -125,18 +127,18 @@ const useStyles = makeStyles((theme) => ({
   logo: {
     height: '3%',
     width: '8%',
-
-
   },
   fixedHeight: {
     height: 600,
   },
 }));
 
-
 const Dashboard = ({ firebaseUser, history, fbName, setUsersFiles, usersFiles }) => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
+  const [newCot, setNewCot] = useState(true);
+  const [newHistory, setNewHistory] = useState(false);
+  const [newMeber, setNewMember] = useState(false);
 
   const logOut = () => {
     firebase.auth().signOut()
@@ -152,13 +154,26 @@ const Dashboard = ({ firebaseUser, history, fbName, setUsersFiles, usersFiles })
     setOpen(false);
   };
 
+  const handleNewCot = () => {
+    setNewCot(true);
+    setNewHistory(false);
+    setNewMember(false);
+  };
 
+  const handleHistory = () => {
+    setNewHistory(true);
+    setNewCot(false);
+    setNewMember(false);
 
+  };
+
+  const handleMember = () => {
+    setNewMember(true);
+    setNewHistory(false);
+    setNewCot(false);
+  };
 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
-  console.log(fbName, 'ajksdkfks');
-
 
   return (
     <div className={classes.root}>
@@ -217,32 +232,55 @@ const Dashboard = ({ firebaseUser, history, fbName, setUsersFiles, usersFiles })
           </ListItem>
         </List>
         <Divider />
-        <List>{mainListItems}</List>
+        <ListItem button>
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
+          <ListItemText primary="Nueva Cotización" onClick={handleNewCot} />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon>
+            <ListAltIcon />
+          </ListItemIcon>
+          <ListItemText primary="Historial" onClick={handleHistory} />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon>
+            <LayersIcon />
+          </ListItemIcon>
+          <ListItemText primary="Membresías" onClick={handleMember} />
+        </ListItem>
         <Divider />
-
       </Drawer>
+
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={12} lg={12}>
-              <Paper className={fixedHeightPaper}>
-                <Cotizacion firebaseUser={firebaseUser} setUsersFiles={setUsersFiles} usersFiles={usersFiles} />
-              </Paper>
-            </Grid>
-            {/* Recent Orders */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <Historial setUsersFiles={setUsersFiles} usersFiles={usersFiles} />
-              </Paper>
-            </Grid>
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <Membresias />
-              </Paper>
-            </Grid>
+            {
+              newCot ? (
+                <Grid item xs={12} md={12} lg={12}>
+                  <Paper className={fixedHeightPaper}>
+                    <Cotizacion firebaseUser={firebaseUser} setUsersFiles={setUsersFiles} usersFiles={usersFiles} />
+                  </Paper>
+                </Grid>) : (null)
+            }
+            {
+              newHistory ? (
+                <Grid item xs={12}>
+                  <Paper className={classes.paper}>
+                    <Historial setUsersFiles={setUsersFiles} usersFiles={usersFiles} />
+                  </Paper>
+                </Grid>) : (null)
+            }
+            {
+              newMeber ? (
+                <Grid item xs={12}>
+                  <Paper className={classes.paper}>
+                    <Membresias />
+                  </Paper>
+                </Grid>) : (null)
+            }
           </Grid>
           <Box pt={4}>
             <Copyright />

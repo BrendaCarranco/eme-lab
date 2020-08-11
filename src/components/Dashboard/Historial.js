@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import { firebase } from '../../firebase';
 import Title from './Title';
-
-
 
 function preventDefault(event) {
   event.preventDefault();
@@ -16,13 +13,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 export default function Historial({ setUsersFiles, usersFiles }) {
   const classes = useStyles();
   //const [usersFiles, setUsersFiles] = useState([]);
   const [userEmail, setUserEmail] = useState('');
-
-
 
   const emailUpdate = async () => {
     const a = await firebase.auth().onAuthStateChanged(function (user) {
@@ -50,8 +44,6 @@ export default function Historial({ setUsersFiles, usersFiles }) {
     };
     fetchUsersFiles();
   }, [setUsersFiles, userEmail]);
-
-  console.log(usersFiles);
 
   return (
     <React.Fragment>

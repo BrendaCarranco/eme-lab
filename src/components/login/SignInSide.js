@@ -48,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
   logo: {
     height: '150px',
     width: '320px'
-
   },
   paper: {
     margin: theme.spacing(8, 4),
@@ -75,12 +74,9 @@ const SignInSide = (props) => {
   const [password, setPassword] = useState('');
   const [user, setUser] = useState('');
   //const [name, setName] = useState('');
-
   //const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalPass, setModalPass] = useState(false);
   const [register, setRegister] = useState(false);
-
-
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -122,8 +118,6 @@ const SignInSide = (props) => {
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
-
-
           <CardMedia
             title="logo"
             image={logoeme}
@@ -133,30 +127,28 @@ const SignInSide = (props) => {
           <form className={classes.form} noValidate
             onSubmit={handleLogin}>
             <TextField
-            
+
               margin="normal"
               required
               fullWidth
               id="outlined-basic"
               label="Correo Electronico"
-            
+
               autoComplete="email"
               autoFocus
               onChange={e => setEmail(e.target.value)}
             />
             <TextField
-            
               margin="normal"
               required
               fullWidth
-            
+
               label="Contraseña"
               type="password"
               id="password"
               autoComplete="current-password"
               onChange={e => setPassword(e.target.value)}
             />
-
             <Button
               type="submit"
               fullWidth
@@ -191,9 +183,6 @@ const SignInSide = (props) => {
               <Copyright />
             </Box>
           </form>
-
-
-
         </div>
       </Grid>
     </Grid>

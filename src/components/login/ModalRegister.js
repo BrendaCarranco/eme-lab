@@ -8,12 +8,8 @@ import Button from '@material-ui/core/Button';
 import CardMedia from '@material-ui/core/CardMedia';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Link from '@material-ui/core/Link';
-import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -54,13 +50,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-
 const ModalRegister = ({ setRegister, history }) => {
     const classes = useStyles();
 
-
     const [modalIsOpen, setModalIsOpen] = useState(true);
-
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [user, setUser] = useState('');
@@ -115,7 +108,6 @@ const ModalRegister = ({ setRegister, history }) => {
     },
         [email, password, name],
     );
-
 
     return (
         <div>
