@@ -131,23 +131,23 @@ const login = useCallback(async () => {
           <form className={classes.form} noValidate
           onSubmit={handleLogin}>
             <TextField
-              variant="outlined"
+            
               margin="normal"
               required
               fullWidth
               id="outlined-basic"
               label="Correo Electronico"
-              name="email"
+            
               autoComplete="email"
               autoFocus
               onChange={e => setEmail(e.target.value)}
             />
             <TextField
-              variant="outlined"
+            
               margin="normal"
               required
               fullWidth
-              name="password"
+            
               label="Contraseña"
               type="password"
               id="password"

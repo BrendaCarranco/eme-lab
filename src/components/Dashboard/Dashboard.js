@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom'
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -18,12 +19,18 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from './listItems.js';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { mainListItems} from './listItems.js';
 import CardMedia from '@material-ui/core/CardMedia';
 import logoeme from '../../img/logoeme.png';
-
 import Cotizacion from './Cotizacion.js';
 import Historial from './Historial.js';
+import Membresias from './Membresias.js';
+import { firebase } from '../../firebase';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 
 function Copyright() {
   return (
@@ -75,6 +82,9 @@ const useStyles = makeStyles((theme) => ({
   menuButtonHidden: {
     display: 'none',
   },
+  grow: {
+    flexGrow: 1,
+  },
   
   drawerPaper: {
     position: 'relative',
@@ -123,16 +133,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Dashboard({firebaseUser}) {
+
+  const Dashboard = ({firebaseUser, history, fbName}) => {  
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
+ 
+  const logOut = () => {
+    firebase.auth().signOut()
+    .then(() => {
+      history.push('/SignIn')
+    })  
+  }
+  
   const handleDrawerOpen = () => {
     setOpen(true);
   };
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+ 
+ 
+  
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
 
   return (
     <div className={classes.root}>
@@ -155,9 +179,15 @@ export default function Dashboard({firebaseUser}) {
           component="img"
           noWrap
         />  
+          <div className={classes.grow} />
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
+            </Badge>
+          </IconButton>
+          <IconButton color="inherit" edge="end" onClick={() => logOut()}>
+            <Badge color="secondary">
+              <ExitToAppIcon />
             </Badge>
           </IconButton>
         </Toolbar>
@@ -174,6 +204,14 @@ export default function Dashboard({firebaseUser}) {
             <ChevronLeftIcon />
           </IconButton>
         </div>
+        <List>
+        <ListItem>
+        <ListItemIcon>
+        <AccountBoxIcon />
+        </ListItemIcon>
+        <ListItemText primary={fbName} />
+        </ListItem> 
+        </List>
         <Divider />
         <List>{mainListItems}</List>
         <Divider />
@@ -196,6 +234,11 @@ export default function Dashboard({firebaseUser}) {
                 <Historial />
               </Paper>
             </Grid>
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <Membresias />
+              </Paper>
+            </Grid>
           </Grid>
           <Box pt={4}>
             <Copyright />
@@ -204,4 +247,5 @@ export default function Dashboard({firebaseUser}) {
       </main>
     </div>
   );
-}
+};
+export default withRouter(Dashboard)

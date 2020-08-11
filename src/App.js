@@ -4,24 +4,24 @@ import { firebase } from './firebase';
 import Building from './components/buildingPage/Building';
 import Login from './components/login/Login';
 import Reset from './components/login/Reset';
-import Storage from './components/client/Storage';
-import Sidenav from './components/sidenav/Sidenav';
-import Navbar from './components/Navbar/Navbar';
 import Dashboard from './components/Dashboard/Dashboard';
 import SignInSide from './components/login/SignInSide';
 function App() {
 
   const [firebaseUser, setFirebaseUser] = useState(null);
+  const [fbName, setFbName] = useState('');
+  const [usersFiles, setUsersFiles] = useState([]);
 
   //Observador
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
       console.log(user);
+      setFbName(user.displayName);
       if (user) {
         setFirebaseUser(user);
       } else {
         setFirebaseUser(null);
-        return firebaseUser;
+        return;
       }
     });
   }, [firebaseUser]);
@@ -39,7 +39,7 @@ function App() {
           <Login firebaseUser={firebaseUser} />
         </Route>
         <Route path='/Inicio'>
-          <Dashboard firebaseUser={firebaseUser}/>
+          <Dashboard firebaseUser={firebaseUser} fbName={fbName}/>
         </Route>
         <Route path='/SignIn'>
           <SignInSide />

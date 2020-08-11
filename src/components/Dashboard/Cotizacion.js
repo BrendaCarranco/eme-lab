@@ -18,7 +18,7 @@ const useStyles = makeStyles({
   depositContext: {
     flex: 1,
   },
- 
+
 });
 
 
@@ -30,46 +30,37 @@ const Cotizacion = ({ firebaseUser }) => {
   let timeFormat = moment(time).format('LLL');
 
   const handleChangeFile = async e => {
-      const file = e.target.files[0];
-      const storageRef = firebase.storage().ref('Cotizaciones').child(firebaseUser.email);
-      const fileRef = storageRef.child(file.name);
-      await fileRef.put(file);
-      setFileUrl(await fileRef.getDownloadURL());
+    const file = e.target.files[0];
+    const storageRef = firebase.storage().ref('Cotizaciones').child(firebaseUser.email);
+    const fileRef = storageRef.child(file.name);
+    await fileRef.put(file);
+    setFileUrl(await fileRef.getDownloadURL());
   };
 
   const handleSubmit = e => {
-      e.preventDefault();
-      console.log('submit');
+    e.preventDefault();
+    console.log('submit');
 
-      const username = e.target.username.value;
-      if (!username) {
-          return;
-      }
+    const username = e.target.username.value;
+    if (!username) {
+      return;
+    }
 
-      const newUserFile = {
-          name: username,
-          fileLink: fileUrl,
-          date: timeFormat
-      };
-      //esta sube la imegen 
-      firebase.firestore().collection('files').doc().set(newUserFile);
-      setUsersFiles([
-          ...usersFiles,
-          { ...newUserFile }
+    const newUserFile = {
+      name: username,
+      fileLink: fileUrl,
+      date: timeFormat,
+      email: firebaseUser.email,
+      user: firebaseUser.displayName
+    };
+    //esta sube la imegen 
+    firebase.firestore().collection('files').doc().set(newUserFile);
+    setUsersFiles([
+      ...usersFiles,
+      { ...newUserFile }
 
-      ]);
+    ]);
   };
-
-  useEffect(() => {
-      const fetchUsersFiles = async () => {
-          const usersFilesCollection = await firebase.firestore().collection('files').get();
-          setUsersFiles(usersFilesCollection.docs.map(doc => {
-              return doc.data();
-          }));
-      };
-      fetchUsersFiles();
-  }, []);
-
   return (
     <React.Fragment>
      <Title>Nueva Cotización</Title>

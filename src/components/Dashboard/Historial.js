@@ -20,38 +20,58 @@ const useStyles = makeStyles((theme) => ({
 export default function Historial() {
   const classes = useStyles();
   const [usersFiles, setUsersFiles] = useState([]);
-useEffect(() => {
-  const fetchUsersFiles = async () => {
-      const usersFilesCollection = await firebase.firestore().collection('files').get();
-      setUsersFiles(usersFilesCollection.docs.map(doc => {
-          return doc.data();
-      }));
+  const [userEmail, setUserEmail] = useState('');
+
+
+
+  const emailUpdate = async () => {
+    const a = await firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        setUserEmail(user.email);
+        return;
+        // User is signed in.
+      } else {
+        return;
+      }
+    });
   };
-  fetchUsersFiles();
-}, []);
+  emailUpdate();
+
+  useEffect(() => {
+    const fetchUsersFiles = async () => {
+      const usersFilesCollection = await firebase.firestore().collection('files').where("email", "==", userEmail).get();
+      setUsersFiles(usersFilesCollection.docs.map(doc => {
+        return doc.data();
+      }));
+    };
+    fetchUsersFiles();
+  }, [setUsersFiles, userEmail]);
+
+  console.log(usersFiles);
+
   return (
     <React.Fragment>
-    <Title>Historial de Cotizaciones</Title>
-    <table className='black-text'>
-    <thead>
-        <tr>
+      <Title>Historial de Cotizaciones</Title>
+      <table className='black-text'>
+        <thead>
+          <tr>
             <th>Nombre</th>
             <th>Fecha</th>
-        </tr>
-    </thead>
-    <tbody>
-        {
+          </tr>
+        </thead>
+        <tbody>
+          {
             usersFiles.map(item => (
-                <tr key={item.id}>
+              <tr key={item.id}>
 
-                    <td>{item.name}</td>
-                    <td>{item.date}</td>
-                </tr>
+                <td>{item.name}</td>
+                <td>{item.date}</td>
+              </tr>
             ))
-        }
-    </tbody>
-</table>
-</React.Fragment>
-   
+          }
+        </tbody>
+      </table>
+    </React.Fragment>
+
   );
 }
