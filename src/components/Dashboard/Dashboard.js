@@ -123,7 +123,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Dashboard({ firebaseUser, setUsersFiles, usersFiles }) {
+export default function Dashboard({ firebaseUser, setUsersFiles, usersFiles, fbName }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -133,6 +133,9 @@ export default function Dashboard({ firebaseUser, setUsersFiles, usersFiles }) {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+  console.log(fbName, 'ajksdkfks');
+
 
   return (
     <div className={classes.root}>

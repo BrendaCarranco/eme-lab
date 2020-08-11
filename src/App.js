@@ -49,7 +49,7 @@ function App() {
         </Route>
 
         <Route path='/Inicio'>
-          <Dashboard firebaseUser={firebaseUser} setUsersFiles={setUsersFiles} usersFiles={usersFiles} />
+          <Dashboard firebaseUser={firebaseUser} setUsersFiles={setUsersFiles} usersFiles={usersFiles} fbName={fbName} />
         </Route>
 
         <Route path='/SignIn'>

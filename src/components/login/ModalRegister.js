@@ -69,6 +69,7 @@ const ModalRegister = ({ setRegister, history }) => {
     const closeModalRegister = () => {
         setModalIsOpen(false);
         setRegister(false);
+        history.push('/signin');
     };
 
     const handleRegister = (e) => {
@@ -90,12 +91,6 @@ const ModalRegister = ({ setRegister, history }) => {
         try {
             const res = await firebase.auth().createUserWithEmailAndPassword(email, password);
             console.log(res.user);
-
-
-            /*                     var user = firebase.auth().currentUser;
-            
-                    user.updateProfile({
-                    displayName: "Jane Q. User" */
 
             let current = firebase.auth().currentUser;
             current.updateProfile({
@@ -120,9 +115,6 @@ const ModalRegister = ({ setRegister, history }) => {
     },
         [email, password, name],
     );
-
-
-
 
 
     return (
