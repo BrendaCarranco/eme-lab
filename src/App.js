@@ -2,23 +2,26 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { firebase } from './firebase';
 import Building from './components/buildingPage/Building';
+import Landing from './components/buildingPage/Landing';
 import Login from './components/login/Login';
 import Reset from './components/login/Reset';
 import Dashboard from './components/Dashboard/Dashboard';
 import SignInSide from './components/login/SignInSide';
-import Dashboardadmin from './components/Admin/Dashboardadmin';
+import Admin from './components/admin/Admin';
 function App() {
 
   const [firebaseUser, setFirebaseUser] = useState(null);
   const [fbName, setFbName] = useState('');
+  const [fbMail, setFbMail] = useState('');
   const [usersFiles, setUsersFiles] = useState([]);
 
   //Observador
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
       console.log(user);
-      setFbName(user.displayName);
       if (user) {
+        setFbName(user.displayName);
+        setFbMail(user.email);
         setFirebaseUser(user);
       } else {
         setFirebaseUser(null);
@@ -31,11 +34,11 @@ function App() {
     <BrowserRouter>
       <Switch>
         <Route exact path='/'>
-          <Building />
+          <Landing />
         </Route>
 
-        <Route path='/reset'>
-          <Reset />
+        <Route path='/admin'>
+          <Admin usersFiles={usersFiles} />
         </Route>
 
         <Route path='/login' >
@@ -43,7 +46,7 @@ function App() {
         </Route>
 
         <Route path='/Inicio'>
-          <Dashboard firebaseUser={firebaseUser} setUsersFiles={setUsersFiles} usersFiles={usersFiles} fbName={fbName} />
+          <Dashboard firebaseUser={firebaseUser} setUsersFiles={setUsersFiles} usersFiles={usersFiles} fbName={fbName} fbMail={fbMail} />
         </Route>
 
         <Route path='/SignIn'>
@@ -51,7 +54,7 @@ function App() {
         </Route>
 
         <Route path='/Admin'>
-          <Dashboardadmin />
+          <Admin />
          </Route> 
 
       </Switch>

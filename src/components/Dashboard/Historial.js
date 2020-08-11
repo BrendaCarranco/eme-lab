@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { firebase } from '../../firebase';
 import Title from './Title';
-
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 function preventDefault(event) {
   event.preventDefault();
 }
@@ -13,60 +17,46 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Historial({ setUsersFiles, usersFiles }) {
+export default function Historial({ setUsersFiles, usersFiles, fbMail }) {
   const classes = useStyles();
   //const [usersFiles, setUsersFiles] = useState([]);
-  const [userEmail, setUserEmail] = useState('');
-
-  const emailUpdate = async () => {
-    const a = await firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        setUserEmail(user.email);
-        return;
-        // User is signed in.
-      } else {
-        return;
-      }
-    });
-  };
-  emailUpdate();
 
   useEffect(() => {
     const fetchUsersFiles = async () => {
       const usersFilesCollection = await firebase
         .firestore()
         .collection('files')
-        .where("email", "==", userEmail)
+        .where("email", "==", fbMail)
         .get();
       setUsersFiles(usersFilesCollection.docs.map(doc => {
         return doc.data();
       }));
     };
     fetchUsersFiles();
-  }, [setUsersFiles, userEmail]);
+  }, [setUsersFiles, fbMail]);
 
   return (
     <React.Fragment>
       <Title>Historial de Cotizaciones</Title>
-      <table className='black-text'>
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Fecha</th>
-          </tr>
-        </thead>
-        <tbody>
+      <Table className='black-text'>
+        <TableHead>
+          <TableRow>
+            <TableCell>Nombre</TableCell>
+            <TableCell>Fecha</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
           {
             usersFiles.map(item => (
-              <tr key={item.id}>
+              <TableRow key={item.id}>
 
-                <td>{item.name}</td>
-                <td>{item.date}</td>
-              </tr>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>{item.date}</TableCell>
+              </TableRow>
             ))
           }
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </React.Fragment>
 
   );
