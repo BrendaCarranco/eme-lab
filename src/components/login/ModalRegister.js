@@ -176,13 +176,13 @@ const ModalRegister = ({ setRegister, history }) => {
                                 onClick={handleRegister}
                             >
                                 Registarme
-          </Button>
+                            </Button>
                             <Grid container justify="flex-end">
                                 <Grid item>
                                     <Button
                                         type="submit"
                                         fullWidth
-                                        variant="outlined"
+                                        variant="contained"
                                         color="default"
                                         className={classes.submit}
                                         onClick={closeModalRegister}

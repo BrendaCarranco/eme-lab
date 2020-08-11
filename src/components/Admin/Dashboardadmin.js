@@ -31,9 +31,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
 import logoeme from '../../img/logoeme.png';
-import Cotizacion from './Cotizacion.js';
-import Historial from './Historial.js';
-import Membresias from './Membresias.js';
+
+import Historialadmin from './Historialadmin.js';
+
 
 function Copyright() {
   return (
@@ -258,30 +258,16 @@ const Dashboard = ({ firebaseUser, history, fbName, setUsersFiles, usersFiles })
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            {
-              newCot ? (
-                <Grid item xs={12} md={12} lg={12}>
-                  <Paper className={fixedHeightPaper}>
-                    <Cotizacion firebaseUser={firebaseUser} setUsersFiles={setUsersFiles} usersFiles={usersFiles} />
-                  </Paper>
-                </Grid>) : (null)
-            }
+           
             {
               newHistory ? (
                 <Grid item xs={12}>
                   <Paper className={classes.paper}>
-                    <Historial setUsersFiles={setUsersFiles} usersFiles={usersFiles} />
+                    <Historialadmin setUsersFiles={setUsersFiles} usersFiles={usersFiles} />
                   </Paper>
                 </Grid>) : (null)
             }
-            {
-              newMeber ? (
-                <Grid item xs={12}>
-                  <Paper className={classes.paper}>
-                    <Membresias />
-                  </Paper>
-                </Grid>) : (null)
-            }
+         
           </Grid>
           <Box pt={4}>
             <Copyright />

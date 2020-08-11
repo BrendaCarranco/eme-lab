@@ -6,6 +6,7 @@ import Login from './components/login/Login';
 import Reset from './components/login/Reset';
 import Dashboard from './components/Dashboard/Dashboard';
 import SignInSide from './components/login/SignInSide';
+import Dashboardadmin from './components/Admin/Dashboardadmin';
 function App() {
 
   const [firebaseUser, setFirebaseUser] = useState(null);
@@ -48,6 +49,10 @@ function App() {
         <Route path='/SignIn'>
           <SignInSide />
         </Route>
+
+        <Route path='/Admin'>
+          <Dashboardadmin />
+         </Route> 
 
       </Switch>
     </BrowserRouter>

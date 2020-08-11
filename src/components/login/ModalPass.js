@@ -139,9 +139,7 @@ const ModalPass = ({ setModalPass, history }) => {
                                     />
                                 </Grid>
                             </Grid>
-                            <Grid container justify="flex-end">
-                                <Grid item>
-                                    <Button
+                            <Button
                                         type="submit"
                                         fullWidth
                                         variant="outlined"
@@ -151,10 +149,13 @@ const ModalPass = ({ setModalPass, history }) => {
                                     >
                                         Enviar
           </Button>
+                            <Grid container justify="flex-end">
+                                <Grid item>
+                                 
                                     <Button
                                         type="submit"
                                         fullWidth
-                                        variant="outlined"
+                                        variant="contained"
                                         color="default"
                                         className={classes.submit}
                                         onClick={closeModal}
