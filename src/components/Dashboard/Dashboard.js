@@ -22,15 +22,15 @@ import { mainListItems, secondaryListItems } from './listItems.js';
 import CardMedia from '@material-ui/core/CardMedia';
 import logoeme from '../../img/logoeme.png';
 
-import Deposits from './Deposits.js';
-import Orders from './Orders.js';
+import Cotizacion from './Cotizacion.js';
+import Historial from './Historial.js';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+        Eme-Lab
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -123,7 +123,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Dashboard() {
+export default function Dashboard({firebaseUser}) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -177,7 +177,7 @@ export default function Dashboard() {
         <Divider />
         <List>{mainListItems}</List>
         <Divider />
-        <List>{secondaryListItems}</List>
+       
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
@@ -187,13 +187,13 @@ export default function Dashboard() {
             {/* Recent Deposits */}
             <Grid item xs={12} md={12} lg={12}>
               <Paper className={fixedHeightPaper}>
-                <Deposits />
+                <Cotizacion firebaseUser={firebaseUser} />
               </Paper>
             </Grid>
             {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Orders />
+                <Historial />
               </Paper>
             </Grid>
           </Grid>
