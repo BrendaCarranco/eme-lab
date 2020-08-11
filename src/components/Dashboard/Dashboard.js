@@ -133,7 +133,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Dashboard = ({ firebaseUser, history, fbName, setUsersFiles, usersFiles }) => {
+const Dashboard = ({ firebaseUser, history, fbName, setUsersFiles, usersFiles, fbMail }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
   const [newCot, setNewCot] = useState(true);
@@ -232,24 +232,28 @@ const Dashboard = ({ firebaseUser, history, fbName, setUsersFiles, usersFiles })
           </ListItem>
         </List>
         <Divider />
-        <ListItem button>
+
+        <ListItem button onClick={handleNewCot} >
           <ListItemIcon>
             <DashboardIcon />
           </ListItemIcon>
-          <ListItemText primary="Nueva Cotización" onClick={handleNewCot} />
+          <ListItemText primary="Nueva Cotización" />
         </ListItem>
-        <ListItem button>
+
+        <ListItem button onClick={handleHistory}>
           <ListItemIcon>
             <ListAltIcon />
           </ListItemIcon>
-          <ListItemText primary="Historial" onClick={handleHistory} />
+          <ListItemText primary="Historial" />
         </ListItem>
-        <ListItem button>
+        <ListItem button onClick={handleMember}>
           <ListItemIcon>
             <LayersIcon />
           </ListItemIcon>
-          <ListItemText primary="Membresías" onClick={handleMember} />
+          <ListItemText primary="Membresías" />
         </ListItem>
+
+
         <Divider />
       </Drawer>
 
@@ -269,7 +273,7 @@ const Dashboard = ({ firebaseUser, history, fbName, setUsersFiles, usersFiles })
               newHistory ? (
                 <Grid item xs={12}>
                   <Paper className={classes.paper}>
-                    <Historial setUsersFiles={setUsersFiles} usersFiles={usersFiles} />
+                    <Historial setUsersFiles={setUsersFiles} usersFiles={usersFiles} fbMail={fbMail} />
                   </Paper>
                 </Grid>) : (null)
             }

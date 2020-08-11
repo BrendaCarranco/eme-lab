@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { firebase } from '../../firebase';
 import moment from 'moment';
 import 'moment/locale/es';
@@ -10,15 +10,10 @@ import Title from './Title';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-function preventDefault(event) {
-  event.preventDefault();
-}
-
 const useStyles = makeStyles({
   depositContext: {
     flex: 1,
   },
-
 });
 
 const Cotizacion = ({ firebaseUser, setUsersFiles, usersFiles }) => {
@@ -39,7 +34,7 @@ const Cotizacion = ({ firebaseUser, setUsersFiles, usersFiles }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log('submit');
+    //console.log('submit');
 
     const username = e.target.username.value;
     setInput(username);
@@ -52,7 +47,8 @@ const Cotizacion = ({ firebaseUser, setUsersFiles, usersFiles }) => {
       fileLink: fileUrl,
       date: timeFormat,
       email: firebaseUser.email,
-      user: firebaseUser.displayName
+      user: firebaseUser.displayName,
+      status: 'Pendiente'
     };
     //esta sube la imegen 
     firebase.firestore().collection('files').doc().set(newUserFile);
@@ -97,7 +93,7 @@ const Cotizacion = ({ firebaseUser, setUsersFiles, usersFiles }) => {
       <Title>Nueva Cotización</Title>
       <Container maxWidth="xs">
         <Typography variant="h6" color="initial">
-          Llena el siguiente formulario ṕara poder realizar su cotización
+          Llena el siguiente formulario para poder realizar tu cotización
        </Typography>
         <form onSubmit={handleSubmit}>
           <TextField

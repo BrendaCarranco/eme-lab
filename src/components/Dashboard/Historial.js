@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { firebase } from '../../firebase';
 import Title from './Title';
@@ -13,37 +13,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Historial({ setUsersFiles, usersFiles }) {
+export default function Historial({ setUsersFiles, usersFiles, fbMail }) {
   const classes = useStyles();
   //const [usersFiles, setUsersFiles] = useState([]);
-  const [userEmail, setUserEmail] = useState('');
-
-  const emailUpdate = async () => {
-    const a = await firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        setUserEmail(user.email);
-        return;
-        // User is signed in.
-      } else {
-        return;
-      }
-    });
-  };
-  emailUpdate();
 
   useEffect(() => {
     const fetchUsersFiles = async () => {
       const usersFilesCollection = await firebase
         .firestore()
         .collection('files')
-        .where("email", "==", userEmail)
+        .where("email", "==", fbMail)
         .get();
       setUsersFiles(usersFilesCollection.docs.map(doc => {
         return doc.data();
       }));
     };
     fetchUsersFiles();
-  }, [setUsersFiles, userEmail]);
+  }, [setUsersFiles, fbMail]);
 
   return (
     <React.Fragment>
