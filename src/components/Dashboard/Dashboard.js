@@ -125,8 +125,8 @@ const useStyles = makeStyles((theme) => ({
   logo: {
     height: '3%',
     width: '8%',
-   
-    
+
+
   },
   fixedHeight: {
     height: 600,
@@ -134,7 +134,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-  const Dashboard = ({firebaseUser, history, fbName}) => {  
+  const Dashboard = ({firebaseUser, history, fbName, setUsersFiles, usersFiles}) => {  
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
  
@@ -209,29 +209,31 @@ const useStyles = makeStyles((theme) => ({
         <ListItemIcon>
         <AccountBoxIcon />
         </ListItemIcon>
-        <ListItemText primary={fbName} />
+        <Typography variant="h6" color="initial">
+          {fbName}
+        </Typography>
         </ListItem> 
         </List>
         <Divider />
         <List>{mainListItems}</List>
         <Divider />
-       
+
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            
+
             {/* Recent Deposits */}
             <Grid item xs={12} md={12} lg={12}>
               <Paper className={fixedHeightPaper}>
-                <Cotizacion firebaseUser={firebaseUser} />
+                <Cotizacion firebaseUser={firebaseUser} setUsersFiles={setUsersFiles} usersFiles={usersFiles} />
               </Paper>
             </Grid>
             {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Historial />
+                <Historial setUsersFiles={setUsersFiles} usersFiles={usersFiles} />
               </Paper>
             </Grid>
             <Grid item xs={12}>

@@ -19,7 +19,7 @@ const Reset = ({ history }) => {
     const resetPass = useCallback(async () => {
         try {
             await firebase.auth().sendPasswordResetEmail(email);
-            console.log('correo enviado');
+            alert('Enviamos un correo con una liga para restablecer tu contraseña');
             history.push('/login');
 
         } catch (error) {

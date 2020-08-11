@@ -32,19 +32,23 @@ function App() {
         <Route exact path='/'>
           <Building />
         </Route>
+
         <Route path='/reset'>
           <Reset />
         </Route>
+
         <Route path='/login' >
           <Login firebaseUser={firebaseUser} />
         </Route>
+
         <Route path='/Inicio'>
-          <Dashboard firebaseUser={firebaseUser} fbName={fbName}/>
+          <Dashboard firebaseUser={firebaseUser} setUsersFiles={setUsersFiles} usersFiles={usersFiles} fbName={fbName} />
         </Route>
+
         <Route path='/SignIn'>
           <SignInSide />
         </Route>
-        
+
       </Switch>
     </BrowserRouter>
   );

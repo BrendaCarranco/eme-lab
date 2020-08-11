@@ -17,9 +17,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function Historial() {
+export default function Historial({ setUsersFiles, usersFiles }) {
   const classes = useStyles();
-  const [usersFiles, setUsersFiles] = useState([]);
+  //const [usersFiles, setUsersFiles] = useState([]);
   const [userEmail, setUserEmail] = useState('');
 
 
@@ -39,7 +39,11 @@ export default function Historial() {
 
   useEffect(() => {
     const fetchUsersFiles = async () => {
-      const usersFilesCollection = await firebase.firestore().collection('files').where("email", "==", userEmail).get();
+      const usersFilesCollection = await firebase
+        .firestore()
+        .collection('files')
+        .where("email", "==", userEmail)
+        .get();
       setUsersFiles(usersFilesCollection.docs.map(doc => {
         return doc.data();
       }));

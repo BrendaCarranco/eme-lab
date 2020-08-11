@@ -22,9 +22,9 @@ const useStyles = makeStyles({
 });
 
 
-const Cotizacion = ({ firebaseUser }) => {
+const Cotizacion = ({ firebaseUser, setUsersFiles, usersFiles }) => {
   const [fileUrl, setFileUrl] = useState(null);
-  const [usersFiles, setUsersFiles] = useState([]);
+  //const [usersFiles, setUsersFiles] = useState([]);
 
   let time = Date.now();
   let timeFormat = moment(time).format('LLL');
@@ -61,48 +61,75 @@ const Cotizacion = ({ firebaseUser }) => {
 
     ]);
   };
+
+  /*   const emailUpdate = async () => {
+      const a = await firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          setUserEmail(user.email);
+          return;
+          // User is signed in.
+        } else {
+          return;
+        }
+      });
+    };
+    emailUpdate();
+  
+    useEffect(() => {
+      const fetchUsersFiles = async () => {
+        const usersFilesCollection = await firebase.firestore().collection('files').where("email", "==", userEmail).get();
+        setUsersFiles(usersFilesCollection.docs.map(doc => {
+          return doc.data();
+        }));
+      };
+      fetchUsersFiles();
+    }, [setUsersFiles, userEmail]);
+  
+    console.log(usersFiles); */
+
+
   return (
     <React.Fragment>
-     <Title>Nueva Cotización</Title>
-     <Container maxWidth="xs">
-       <Typography variant="h6" color="initial">
-         Llena el siguiente formulario ṕara poder realizar su cotización
+      <Title>Nueva Cotización</Title>
+      <Container maxWidth="xs">
+        <Typography variant="h6" color="initial">
+          Llena el siguiente formulario ṕara poder realizar su cotización
        </Typography>
-     <form onSubmit={handleSubmit}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="outlined-basic"
-              label="Nombre"
-              name='username'
-             
-            />
-             <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="outlined-basic"
-              name='file'
-              type='file'
-              onChange={handleChangeFile}
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="outlined"
-              color="default"
-            >Enviar</Button>
-            
-             
-             
-          </form>
-     </Container>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="outlined-basic"
+            label="Nombre"
+            name='username'
+
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="outlined-basic"
+            name='file'
+            type='file'
+            onChange={handleChangeFile}
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="outlined"
+            color="default"
+          >Enviar</Button>
+
+
+
+        </form>
+      </Container>
     </React.Fragment>
 
-    
+
   );
 };
 

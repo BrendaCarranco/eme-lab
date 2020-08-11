@@ -1,8 +1,9 @@
 import React, { useState, useCallback } from 'react';
 import { firebase } from '../../firebase';
-import {withRouter} from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
 import logoeme from '../../img/logoeme.png';
 import Modal from 'react-modal';
+import ModalPass from './ModalPass';
 
 import Button from '@material-ui/core/Button';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -17,6 +18,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import ModalRegister from './ModalRegister';
 
 function Copyright() {
   return (
@@ -46,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   logo: {
     height: '150px',
     width: '320px'
-    
+
   },
   paper: {
     margin: theme.spacing(8, 4),
@@ -72,42 +74,46 @@ const SignInSide = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState('');
-  const [name, setName] = useState('');
+  //const [name, setName] = useState('');
 
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  //const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalPass, setModalPass] = useState(false);
+  const [register, setRegister] = useState(false);
 
-  const closeModal = () => {
-    setModalIsOpen(false)
-  };
-  
+
+
   const handleLogin = (e) => {
     e.preventDefault();
     if (!email.trim()) {
-        console.log('mete un correo');
-        return;
+      console.log('mete un correo');
+      return;
     }
     if (!password.trim()) {
-        console.log('mete contraseña');
-        return;
+      console.log('mete contraseña');
+      return;
     }
     console.log('validando...');
     login();
-};
+  };
 
-const login = useCallback(async () => {
+  const showModalRegister = () => {
+    setRegister(true);
+  };
+
+  const login = useCallback(async () => {
     try {
-        const res = await firebase.auth().signInWithEmailAndPassword(email, password);
-        console.log(res.user);
-        setUser(res.user.email);
-        props.history.push('/Inicio')
+      const res = await firebase.auth().signInWithEmailAndPassword(email, password);
+      console.log(res.user);
+      setUser(res.user.email);
+      props.history.push('/Inicio');
     } catch (err) {
-        console.log(err);
-        if (err.code === "auth/user-not-found") {
-            alert('correo no valido');
-        }
+      console.log(err);
+      if (err.code === "auth/user-not-found") {
+        alert('correo no valido');
+      }
     }
 
-}, [email, password]);
+  }, [email, password]);
 
 
   return (
@@ -116,20 +122,16 @@ const login = useCallback(async () => {
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
-          
-       
-        <CardMedia
-          title="logo"
-          image={logoeme}
-          className={classes.logo}
-          component="img"
-        />          
-          
-            
-         
-         
+
+
+          <CardMedia
+            title="logo"
+            image={logoeme}
+            className={classes.logo}
+            component="img"
+          />
           <form className={classes.form} noValidate
-          onSubmit={handleLogin}>
+            onSubmit={handleLogin}>
             <TextField
             
               margin="normal"
@@ -154,7 +156,7 @@ const login = useCallback(async () => {
               autoComplete="current-password"
               onChange={e => setPassword(e.target.value)}
             />
-           
+
             <Button
               type="submit"
               fullWidth
@@ -166,107 +168,32 @@ const login = useCallback(async () => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2" color="inherit">
+                <Link href="#" variant="body2" color="inherit" onClick={() => setModalPass(true)} >
                   ¿Olvidaste tu contraseña?
+                      {
+                    modalPass ? (<ModalPass setModalPass={setModalPass} />) : (null)
+                  }
                 </Link>
               </Grid>
               <Grid item>
                 <Link variant="body2" color="inherit"
-                onClick={() => setModalIsOpen(true)} >
-                   <Modal isOpen={modalIsOpen}>
-  
-  
-  <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-      <CardMedia
-          title="logo"
-          image={logoeme}
-          className={classes.logo}
-          component="img"
-        />   
-        <Typography component="h1" variant="h5">
-          Registrate
-        </Typography>
-        <form className={classes.form} noValidate>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
-              <TextField
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-              />
-            </Grid>
-          
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-            </Grid>
-            
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="outlined"
-            color="default"
-            className={classes.submit}
-          >
-            Iniciar Sesión
-          </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-            <Button
-            type="submit"
-            fullWidth
-            variant="outlined"
-            color="default"
-            className={classes.submit}
-            onClick={closeModal}
-          >
-            Cerrar
-          </Button>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-      <Box mt={5}>
-        <Copyright />
-      </Box>
-  </Container>
-                   </Modal>
+                  onClick={showModalRegister}
+                      /* onClick={showModal} */ >
+                  {
+                    register ? (<ModalRegister setRegister={setRegister} />) : (null)
+                  }
                   {"No tienes una cuenta? Registrate"}
                 </Link>
               </Grid>
             </Grid>
-            
+
             <Box mt={5}>
               <Copyright />
             </Box>
           </form>
+
+
+
         </div>
       </Grid>
     </Grid>
