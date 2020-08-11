@@ -18,7 +18,113 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-const ModalRegister = () => {
+const useStyles = makeStyles((theme) => ({
+    root: {
+        height: '100vh',
+    },
+    image: {
+        backgroundImage: 'url(https://source.unsplash.com/random)',
+        backgroundRepeat: 'no-repeat',
+        backgroundColor:
+            theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+    },
+    logo: {
+        height: '150px',
+        width: '320px'
+
+    },
+    paper: {
+        margin: theme.spacing(8, 4),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main,
+    },
+    form: {
+        width: '100%', // Fix IE 11 issue.
+        marginTop: theme.spacing(1),
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+    },
+}));
+
+
+const ModalRegister = ({ setRegister, history }) => {
+    const classes = useStyles();
+
+
+    const [modalIsOpen, setModalIsOpen] = useState(true);
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [user, setUser] = useState('');
+    const [name, setName] = useState('');
+
+    const closeModalRegister = () => {
+        setModalIsOpen(false);
+        setRegister(false);
+    };
+
+    const handleRegister = (e) => {
+        e.preventDefault();
+        if (!email.trim()) {
+            console.log('mete un correo');
+            return;
+        }
+        if (!password.trim()) {
+            console.log('mete contraseña');
+            return;
+        }
+        console.log('validando...');
+        register();
+    };
+
+
+    const register = useCallback(async () => {
+        try {
+            const res = await firebase.auth().createUserWithEmailAndPassword(email, password);
+            console.log(res.user);
+
+
+            /*                     var user = firebase.auth().currentUser;
+            
+                    user.updateProfile({
+                    displayName: "Jane Q. User" */
+
+            let current = firebase.auth().currentUser;
+            current.updateProfile({
+                displayName: name
+            });
+
+            await firebase.firestore().collection('usuarios').doc(res.user.email).set({
+                email: res.user.email,
+                uid: res.user.uid,
+                name: name
+            });
+            setEmail('');
+            setPassword('');
+            setUser(res.user.email);
+            history.push('/Inicio');
+        } catch (err) {
+            console.log(err);
+            /*             if(err.code === 'auth/invalid-email'){
+                            setError('Email no válido')
+                        } */
+        }
+    },
+        [email, password, name],
+    );
+
+
+
+
+
     return (
         <div>
             <Modal isOpen={modalIsOpen}>
@@ -46,6 +152,7 @@ const ModalRegister = () => {
                                         id="firstName"
                                         label="First Name"
                                         autoFocus
+                                        onChange={e => setName(e.target.value)}
                                     />
                                 </Grid>
 
@@ -58,6 +165,7 @@ const ModalRegister = () => {
                                         label="Email Address"
                                         name="email"
                                         autoComplete="email"
+                                        onChange={e => setEmail(e.target.value)}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -70,6 +178,7 @@ const ModalRegister = () => {
                                         type="password"
                                         id="password"
                                         autoComplete="current-password"
+                                        onChange={e => setPassword(e.target.value)}
                                     />
                                 </Grid>
 
@@ -80,8 +189,9 @@ const ModalRegister = () => {
                                 variant="outlined"
                                 color="default"
                                 className={classes.submit}
+                                onClick={handleRegister}
                             >
-                                Iniciar Sesión
+                                Registarme
           </Button>
                             <Grid container justify="flex-end">
                                 <Grid item>
@@ -91,7 +201,7 @@ const ModalRegister = () => {
                                         variant="outlined"
                                         color="default"
                                         className={classes.submit}
-                                        onClick={closeModal}
+                                        onClick={closeModalRegister}
                                     >
                                         Cerrar
           </Button>
@@ -100,7 +210,6 @@ const ModalRegister = () => {
                         </form>
                     </div>
                     <Box mt={5}>
-                        <Copyright />
                     </Box>
                 </Container>
             </Modal>
@@ -109,4 +218,4 @@ const ModalRegister = () => {
     );
 };
 
-export default ModalRegister;
+export default withRouter(ModalRegister);

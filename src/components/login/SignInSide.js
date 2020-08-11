@@ -18,6 +18,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import ModalRegister from './ModalRegister';
 
 function Copyright() {
   return (
@@ -73,15 +74,13 @@ const SignInSide = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState('');
-  const [name, setName] = useState('');
+  //const [name, setName] = useState('');
 
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  //const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalPass, setModalPass] = useState(false);
-  const [hide, setHide] = useState(false);
+  const [register, setRegister] = useState(false);
 
-  const closeModal = () => {
-    setModalIsOpen(false);
-  };
+
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -97,8 +96,8 @@ const SignInSide = (props) => {
     login();
   };
 
-  const showModal = () => {
-    setModalPass(true);
+  const showModalRegister = () => {
+    setRegister(true);
   };
 
   const login = useCallback(async () => {
@@ -131,69 +130,68 @@ const SignInSide = (props) => {
             className={classes.logo}
             component="img"
           />
+          <form className={classes.form} noValidate
+            onSubmit={handleLogin}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="outlined-basic"
+              label="Correo Electronico"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              onChange={e => setEmail(e.target.value)}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Contraseña"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              onChange={e => setPassword(e.target.value)}
+            />
 
-
-          {
-            hide ? (<div>uno</div>) : (
-              <form className={classes.form} noValidate
-                onSubmit={handleLogin}>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="outlined-basic"
-                  label="Correo Electronico"
-                  name="email"
-                  autoComplete="email"
-                  autoFocus
-                  onChange={e => setEmail(e.target.value)}
-                />
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Contraseña"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  onChange={e => setPassword(e.target.value)}
-                />
-
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="outlined"
-                  color="default"
-                  className={classes.submit}
-                >
-                  Inicia Sesión
+            <Button
+              type="submit"
+              fullWidth
+              variant="outlined"
+              color="default"
+              className={classes.submit}
+            >
+              Inicia Sesión
             </Button>
-                <Grid container>
-                  <Grid item xs>
-                    <Link href="#" variant="body2" color="inherit" onClick={() => setModalPass(true)} >
-                      ¿Olvidaste tu contraseña?
-                </Link>
-                  </Grid>
-                  <Grid item>
-                    <Link variant="body2" color="inherit"
-                      onClick={showModal} >
+            <Grid container>
+              <Grid item xs>
+                <Link href="#" variant="body2" color="inherit" onClick={() => setModalPass(true)} >
+                  ¿Olvidaste tu contraseña?
                       {
-                        modalPass ? (<ModalPass setModalPass={setModalPass} />) : (<div>hi</div>)
-                      }
-                      {"No tienes una cuenta? Registrate"}
-                    </Link>
-                  </Grid>
-                </Grid>
+                    modalPass ? (<ModalPass setModalPass={setModalPass} />) : (null)
+                  }
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link variant="body2" color="inherit"
+                  onClick={showModalRegister}
+                      /* onClick={showModal} */ >
+                  {
+                    register ? (<ModalRegister setRegister={setRegister} />) : (null)
+                  }
+                  {"No tienes una cuenta? Registrate"}
+                </Link>
+              </Grid>
+            </Grid>
 
-                <Box mt={5}>
-                  <Copyright />
-                </Box>
-              </form>
-            )
-          }
+            <Box mt={5}>
+              <Copyright />
+            </Box>
+          </form>
+
 
 
         </div>

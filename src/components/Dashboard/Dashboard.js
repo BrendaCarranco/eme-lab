@@ -123,7 +123,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Dashboard({ firebaseUser }) {
+export default function Dashboard({ firebaseUser, setUsersFiles, usersFiles }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -187,13 +187,13 @@ export default function Dashboard({ firebaseUser }) {
             {/* Recent Deposits */}
             <Grid item xs={12} md={12} lg={12}>
               <Paper className={fixedHeightPaper}>
-                <Cotizacion firebaseUser={firebaseUser} />
+                <Cotizacion firebaseUser={firebaseUser} setUsersFiles={setUsersFiles} usersFiles={usersFiles} />
               </Paper>
             </Grid>
             {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Historial />
+                <Historial setUsersFiles={setUsersFiles} usersFiles={usersFiles} />
               </Paper>
             </Grid>
           </Grid>

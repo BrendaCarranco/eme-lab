@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 import logoeme from '../../img/logoeme.png';
 import Modal from 'react-modal';
 
+
 import Button from '@material-ui/core/Button';
 import CardMedia from '@material-ui/core/CardMedia';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -58,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const ModalPass = ({ setModalPass }) => {
+const ModalPass = ({ setModalPass, history }) => {
     const classes = useStyles();
 
 
@@ -71,6 +72,34 @@ const ModalPass = ({ setModalPass }) => {
         setModalPass(false);
         setModalIsOpen(false);
     };
+
+    const [email, setEmail] = useState('');
+    //const [error, setError] = useState(null);
+
+    const handleReset = e => {
+        e.preventDefault();
+        if (!email.trim()) {
+            console.log('Ingresa tu correo');
+            return;
+        }
+        //setError(null);
+        resetPass();
+    };
+
+    const resetPass = useCallback(async () => {
+        try {
+            await firebase.auth().sendPasswordResetEmail(email);
+            alert('Enviamos un correo con una liga para restablecer tu contraseña');
+            history.push('/signin');
+
+        } catch (error) {
+            console.log(error);
+            //setError(error.message);
+        }
+    }, [email, history]);
+
+
+
 
     return (
         <Fragment>
@@ -100,7 +129,7 @@ const ModalPass = ({ setModalPass }) => {
                         <Typography component="h1" variant="h5">
                             Recupera tu contraseña
         </Typography>
-                        <form className={classes.form} noValidate>
+                        <form className={classes.form} noValidate >
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sm={12}>
                                     <TextField
@@ -112,6 +141,7 @@ const ModalPass = ({ setModalPass }) => {
                                         id="emailPass"
                                         label="Email"
                                         autoFocus
+                                        onChange={e => setEmail(e.target.value)}
                                     />
                                 </Grid>
 
@@ -121,6 +151,16 @@ const ModalPass = ({ setModalPass }) => {
 
                             <Grid container justify="flex-end">
                                 <Grid item>
+                                    <Button
+                                        type="submit"
+                                        fullWidth
+                                        variant="outlined"
+                                        color="default"
+                                        className={classes.submit}
+                                        onClick={handleReset}
+                                    >
+                                        Enviar
+          </Button>
                                     <Button
                                         type="submit"
                                         fullWidth
@@ -143,4 +183,4 @@ const ModalPass = ({ setModalPass }) => {
     );
 };
 
-export default ModalPass;
+export default withRouter(ModalPass);

@@ -13,6 +13,7 @@ function App() {
 
   const [firebaseUser, setFirebaseUser] = useState(null);
   const [fbName, setFbName] = useState('');
+  const [usersFiles, setUsersFiles] = useState([]);
 
   //Observador
   useEffect(() => {
@@ -48,7 +49,7 @@ function App() {
         </Route>
 
         <Route path='/Inicio'>
-          <Dashboard firebaseUser={firebaseUser}/>
+          <Dashboard firebaseUser={firebaseUser} setUsersFiles={setUsersFiles} usersFiles={usersFiles} />
         </Route>
 
         <Route path='/SignIn'>

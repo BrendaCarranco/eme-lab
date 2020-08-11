@@ -18,100 +18,118 @@ const useStyles = makeStyles({
   depositContext: {
     flex: 1,
   },
- 
+
 });
 
 
-const Cotizacion = ({ firebaseUser }) => {
+const Cotizacion = ({ firebaseUser, setUsersFiles, usersFiles }) => {
   const [fileUrl, setFileUrl] = useState(null);
-  const [usersFiles, setUsersFiles] = useState([]);
+  //const [usersFiles, setUsersFiles] = useState([]);
 
   let time = Date.now();
   let timeFormat = moment(time).format('LLL');
 
   const handleChangeFile = async e => {
-      const file = e.target.files[0];
-      const storageRef = firebase.storage().ref('Cotizaciones').child(firebaseUser.email);
-      const fileRef = storageRef.child(file.name);
-      await fileRef.put(file);
-      setFileUrl(await fileRef.getDownloadURL());
+    const file = e.target.files[0];
+    const storageRef = firebase.storage().ref('Cotizaciones').child(firebaseUser.email);
+    const fileRef = storageRef.child(file.name);
+    await fileRef.put(file);
+    setFileUrl(await fileRef.getDownloadURL());
   };
 
   const handleSubmit = e => {
-      e.preventDefault();
-      console.log('submit');
+    e.preventDefault();
+    console.log('submit');
 
-      const username = e.target.username.value;
-      if (!username) {
-          return;
-      }
+    const username = e.target.username.value;
+    if (!username) {
+      return;
+    }
 
-      const newUserFile = {
-          name: username,
-          fileLink: fileUrl,
-          date: timeFormat
-      };
-      //esta sube la imegen 
-      firebase.firestore().collection('files').doc().set(newUserFile);
-      setUsersFiles([
-          ...usersFiles,
-          { ...newUserFile }
+    const newUserFile = {
+      name: username,
+      fileLink: fileUrl,
+      date: timeFormat,
+      email: firebaseUser.email,
+      user: firebaseUser.displayName
+    };
+    //esta sube la imegen 
+    firebase.firestore().collection('files').doc().set(newUserFile);
+    setUsersFiles([
+      ...usersFiles,
+      { ...newUserFile }
 
-      ]);
+    ]);
   };
 
-  useEffect(() => {
+  /*   const emailUpdate = async () => {
+      const a = await firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          setUserEmail(user.email);
+          return;
+          // User is signed in.
+        } else {
+          return;
+        }
+      });
+    };
+    emailUpdate();
+  
+    useEffect(() => {
       const fetchUsersFiles = async () => {
-          const usersFilesCollection = await firebase.firestore().collection('files').get();
-          setUsersFiles(usersFilesCollection.docs.map(doc => {
-              return doc.data();
-          }));
+        const usersFilesCollection = await firebase.firestore().collection('files').where("email", "==", userEmail).get();
+        setUsersFiles(usersFilesCollection.docs.map(doc => {
+          return doc.data();
+        }));
       };
       fetchUsersFiles();
-  }, []);
+    }, [setUsersFiles, userEmail]);
+  
+    console.log(usersFiles); */
+
 
   return (
     <React.Fragment>
-     <Title>Nueva Cotización</Title>
-     <Container maxWidth="xs">
-       <Typography variant="h6" color="initial">
-         Llena el siguiente formulario ṕara poder realizar su cotización
+      <Title>Nueva Cotización</Title>
+      <Container maxWidth="xs">
+        <Typography variant="h6" color="initial">
+          Llena el siguiente formulario ṕara poder realizar su cotización
        </Typography>
-     <form onSubmit={handleSubmit}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="outlined-basic"
-              label="Nombre"
-              name='username'
-             
-            />
-             <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="outlined-basic"
-              name='file'
-              type='file'
-              onChange={handleChangeFile}
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="outlined"
-              color="default"
-            >Enviar</Button>
-            
-             
-             
-          </form>
-     </Container>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="outlined-basic"
+            label="Nombre"
+            name='username'
+
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="outlined-basic"
+            name='file'
+            type='file'
+            onChange={handleChangeFile}
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="outlined"
+            color="default"
+          >Enviar</Button>
+
+
+
+        </form>
+      </Container>
     </React.Fragment>
 
-    
+
   );
 };
 
