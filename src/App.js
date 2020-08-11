@@ -48,7 +48,7 @@ function App() {
         </Route>
 
         <Route path='/Inicio'>
-          <Dashboard />
+          <Dashboard firebaseUser={firebaseUser}/>
         </Route>
 
         <Route path='/SignIn'>
