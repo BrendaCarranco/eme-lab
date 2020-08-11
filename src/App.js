@@ -4,9 +4,6 @@ import { firebase } from './firebase';
 import Building from './components/buildingPage/Building';
 import Login from './components/login/Login';
 import Reset from './components/login/Reset';
-import Storage from './components/client/Storage';
-import Sidenav from './components/sidenav/Sidenav';
-import Navbar from './components/Navbar/Navbar';
 import Dashboard from './components/Dashboard/Dashboard';
 import SignInSide from './components/login/SignInSide';
 function App() {
@@ -42,10 +39,6 @@ function App() {
 
         <Route path='/login' >
           <Login firebaseUser={firebaseUser} />
-        </Route>
-
-        <Route path='/storage'>
-          <Storage firebaseUser={firebaseUser} fbName={fbName} />
         </Route>
 
         <Route path='/Inicio'>
