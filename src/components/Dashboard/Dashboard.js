@@ -23,7 +23,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import logoeme from '../../img/logoeme.png';
 
 import Deposits from './Deposits.js';
-import Orders from './Orders.js';
+import Historial from './Historial.js';
 
 function Copyright() {
   return (
@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
   menuButtonHidden: {
     display: 'none',
   },
-  
+
   drawerPaper: {
     position: 'relative',
     whiteSpace: 'nowrap',
@@ -115,8 +115,8 @@ const useStyles = makeStyles((theme) => ({
   logo: {
     height: '3%',
     width: '8%',
-   
-    
+
+
   },
   fixedHeight: {
     height: 600,
@@ -149,12 +149,12 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <CardMedia
-          title="logo"
-          image={logoeme}
-          className={classes.logo}
-          component="img"
-          noWrap
-        />  
+            title="logo"
+            image={logoeme}
+            className={classes.logo}
+            component="img"
+            noWrap
+          />
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
@@ -183,7 +183,7 @@ export default function Dashboard() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            
+
             {/* Recent Deposits */}
             <Grid item xs={12} md={12} lg={12}>
               <Paper className={fixedHeightPaper}>
@@ -193,7 +193,7 @@ export default function Dashboard() {
             {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Orders />
+                <Historial />
               </Paper>
             </Grid>
           </Grid>
