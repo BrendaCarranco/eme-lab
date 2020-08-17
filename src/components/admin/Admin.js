@@ -39,6 +39,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
 import logoeme from '../../img/logoeme.png';
+import Registro from './Registro';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -132,6 +133,7 @@ const Admin = ({ history }) => {
     const [open, setOpen] = useState(true);
     const [cot, setCot] = useState(true);
     const [newHistory, setNewHistory] = useState(false);
+    const [register, setRegister] = useState(false);
     const [allCot, setAllCot] = useState([]); //
 
     const logOut = () => {
@@ -151,13 +153,19 @@ const Admin = ({ history }) => {
     const handleCot = () => {
         setCot(true);
         setNewHistory(false);
-        console.log('ver cot');
+        setRegister(false);
     };
 
     const handleHistory = () => {
         setNewHistory(true);
         setCot(false);
+        setRegister(false);
+    };
 
+    const handleRegister = () => {
+        setRegister(true);
+        setCot(false);
+        setNewHistory(false);
     };
 
     useEffect(() => {
@@ -257,6 +265,13 @@ const Admin = ({ history }) => {
                 </ListItem>
 
 
+                <ListItem button onClick={handleRegister}>
+                    <ListItemIcon>
+                        <ListAltIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Registro" />
+                </ListItem>
+
                 <Divider />
             </Drawer>
 
@@ -308,7 +323,10 @@ const Admin = ({ history }) => {
                                                 }
                                             </TableBody>
                                         </Table>
-                                    ) : (<div>false</div>)
+                                    ) : (null)
+                                }
+                                {
+                                    register ? (<Registro />) : (null)
                                 }
                             </Paper>
                         </Grid>

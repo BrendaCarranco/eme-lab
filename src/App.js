@@ -3,7 +3,6 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { firebase } from './firebase';
 import Building from './components/buildingPage/Building';
 import Landing from './components/buildingPage/Landing';
-import Login from './components/login/Login';
 import Reset from './components/login/Reset';
 import Dashboard from './components/Dashboard/Dashboard';
 import SignInSide from './components/login/SignInSide';
@@ -41,10 +40,6 @@ function App() {
           <Admin usersFiles={usersFiles} />
         </Route>
 
-        <Route path='/login' >
-          <Login firebaseUser={firebaseUser} />
-        </Route>
-
         <Route path='/Inicio'>
           <Dashboard firebaseUser={firebaseUser} setUsersFiles={setUsersFiles} usersFiles={usersFiles} fbName={fbName} fbMail={fbMail} />
         </Route>
@@ -55,7 +50,7 @@ function App() {
 
         <Route path='/Admin'>
           <Admin />
-         </Route> 
+        </Route>
 
       </Switch>
     </BrowserRouter>
