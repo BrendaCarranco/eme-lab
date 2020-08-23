@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 import { firebase } from '../../firebase';
 import clsx from 'clsx';
@@ -34,6 +34,8 @@ import logoeme from '../../img/logoeme.png';
 import Cotizacion from './Cotizacion.js';
 import Historial from './Historial.js';
 import Membresias from './Membresias.js';
+
+import { UserContext } from '../../context/UserProvider';
 
 function Copyright() {
   return (
@@ -133,18 +135,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Dashboard = ({ firebaseUser, history, fbName, setUsersFiles, usersFiles, fbMail }) => {
+const Dashboard = ({ firebaseUser, history, setUsersFiles, usersFiles, fbMail }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
   const [newCot, setNewCot] = useState(true);
   const [newHistory, setNewHistory] = useState(false);
   const [newMeber, setNewMember] = useState(false);
 
-  const logOut = () => {
-    firebase.auth().signOut()
-      .then(() => {
-        history.push('/SignIn');
-      });
+  const { userProvider } = useContext(UserContext);
+
+  const userLogout = () => {
+    firebase.auth().signOut();
+    history.push('/signin');
+
+    console.log('cerrando sesión');
   };
 
   const handleDrawerOpen = () => {
@@ -202,7 +206,7 @@ const Dashboard = ({ firebaseUser, history, fbName, setUsersFiles, usersFiles, f
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <IconButton color="inherit" edge="end" onClick={() => logOut()}>
+          <IconButton color="inherit" edge="end" onClick={userLogout}>
             <Badge color="secondary">
               <ExitToAppIcon />
             </Badge>
@@ -227,7 +231,7 @@ const Dashboard = ({ firebaseUser, history, fbName, setUsersFiles, usersFiles, f
               <AccountBoxIcon />
             </ListItemIcon>
             <Typography variant="h6" color="initial">
-              {fbName}
+              {userProvider.displayName}
             </Typography>
           </ListItem>
         </List>
@@ -245,6 +249,7 @@ const Dashboard = ({ firebaseUser, history, fbName, setUsersFiles, usersFiles, f
           </ListItemIcon>
           <ListItemText primary="Historial" />
         </ListItem>
+
         <ListItem button onClick={handleMember}>
           <ListItemIcon>
             <LayersIcon />
@@ -252,9 +257,8 @@ const Dashboard = ({ firebaseUser, history, fbName, setUsersFiles, usersFiles, f
           <ListItemText primary="Membresías" />
         </ListItem>
 
-
         <Divider />
-      </Drawer>
+      </Drawer >
 
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
@@ -290,7 +294,7 @@ const Dashboard = ({ firebaseUser, history, fbName, setUsersFiles, usersFiles, f
           </Box>
         </Container>
       </main>
-    </div>
+    </div >
   );
 };
 export default withRouter(Dashboard);

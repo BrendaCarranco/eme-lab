@@ -1,7 +1,6 @@
-import React, { useState, useCallback, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import { firebase } from '../../firebase';
 import { withRouter } from 'react-router-dom';
-import logoeme from '../../img/logoeme.png';
 
 import Button from '@material-ui/core/Button';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -12,6 +11,17 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Link from '@material-ui/core/Link';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import { firestore } from 'firebase';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -52,132 +62,133 @@ const useStyles = makeStyles((theme) => ({
 const ModalRegister = ({ setRegister, history }) => {
     const classes = useStyles();
 
-    const [modalIsOpen, setModalIsOpen] = useState(true);
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [user, setUser] = useState('');
-    const [name, setName] = useState('');
+    const [users, setUsers] = useState([]);
 
-    const handleRegister = (e) => {
-        e.preventDefault();
-        if (!email.trim()) {
-            console.log('mete un correo');
-            return;
-        }
-        if (!password.trim()) {
-            console.log('mete contraseña');
-            return;
-        }
-        alert('Registro Exitoso');
-        register();
-        setName('');
-        setPassword('');
-        setEmail('');
-    };
+    useEffect(() => {
+        fetchUsuarios();
+    }, []);
 
-    const register = useCallback(async () => {
+    const fetchUsuarios = async () => {
         try {
-            const res = await firebase.auth().createUserWithEmailAndPassword(email, password);
-            console.log(res.user);
-
-            let current = firebase.auth().currentUser;
-            current.updateProfile({
-                displayName: name
-            });
-
-            await firebase.firestore().collection('usuarios').doc(res.user.email).set({
-                email: res.user.email,
-                uid: res.user.uid,
-                name: name
-            });
-            setEmail('');
-            setPassword('');
-            //setUser(res.user.email);
-        } catch (err) {
-            console.log(err);
-            /*             if(err.code === 'auth/invalid-email'){
-                            setError('Email no válido')
-                        } */
+            const res = await firebase.firestore().collection('usuarios').get();
+            const arrayUsers = res.docs.map(doc => doc.data());
+            setUsers(arrayUsers);
+        } catch (error) {
+            console.log(error);
         }
-    },
-        [email, password, name],
-    );
-
+    };
+    /* 
+        const makeAdmin = email => {
+            console.log('admiiiiin', email);
+    
+            const addRole = firebase.functions().httpsCallable('addNewAdmin');
+    
+            addRole({ email: email })
+                .then(res => {
+                    console.log(res);
+                    if (res.data.error) {
+                        console.log('no tiene permisos');
+                        return;
+                    }
+    
+                    firebase.firestore().collection('usuarios').doc(email).update({ role: 'admin' })
+                        .then(user => {
+                            console.log('usuario modificado a administrador');
+                            fetchUsuarios();
+                        });
+                });
+        };
+     */
     return (
         <div>
-            <Container component="main" maxWidth="xs">
-                <CssBaseline />
-                <div className={classes.paper}>
-                    <Typography component="h1" variant="h5">
-                        Nuevo miembro
+            <Container maxWidth="lg" className={classes.container}>
+                <Grid item xs={12} md={12} lg={12}>
+
+                    <div className={classes.paper}>
+                        <Typography component="h1" variant="h5">
+                            Miembros
         </Typography>
-                    <form className={classes.form} noValidate>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} sm={12}>
-                                <TextField
-                                    autoComplete="fname"
-                                    name="firstName"
-                                    variant="outlined"
-                                    value={name}
-                                    required
-                                    fullWidth
-                                    id="firstName"
-                                    label="First Name"
-                                    autoFocus
-                                    onChange={e => setName(e.target.value)}
-                                />
-                            </Grid>
+                        {/*                     {
+                        users.map(user => (
+                            <div key={user.uid}>
+                                {user.email} - {user.role}
+                            </div>
+                        ))
+                    } */}
 
-                            <Grid item xs={12}>
-                                <TextField
-                                    variant="outlined"
-                                    value={email}
-                                    required
-                                    fullWidth
-                                    id="email"
-                                    label="Email Address"
-                                    name="email"
-                                    autoComplete="email"
-                                    onChange={e => setEmail(e.target.value)}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    variant="outlined"
-                                    value={password}
-                                    required
-                                    fullWidth
-                                    name="password"
-                                    label="Password"
-                                    type="password"
-                                    id="password"
-                                    autoComplete="current-password"
-                                    onChange={e => setPassword(e.target.value)}
-                                />
-                            </Grid>
 
-                        </Grid>
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="outlined"
-                            color="default"
-                            className={classes.submit}
-                            onClick={handleRegister}
-                        >
-                            Registar
-                            </Button>
-                        <Grid container justify="flex-end">
-                            <Grid item>
-                            </Grid>
-                        </Grid>
-                    </form>
-                </div>
-                <Box mt={5}>
-                </Box>
+                        <Table className='black-text'>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Nombre</TableCell>
+                                    <TableCell>Correo</TableCell>
+                                    <TableCell>Status</TableCell>
+                                    <TableCell>Actualizar</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {
+                                    users.map(user => (
+                                        <TableRow key={user.uid}>
+
+                                            <TableCell>{user.displayName}</TableCell>
+                                            <TableCell>{user.email}</TableCell>
+                                            <TableCell>{user.role}</TableCell>
+                                            <TableCell>
+                                                {
+                                                    user.role === 'Invitado' ? (<Button
+                                                        type='text'
+                                                        variant="outlined"
+                                                        color="default"
+                                                        className={classes.submit}
+                                                        onClick={() => console.log('hacer miembro')}
+                                                    >Miembro</Button>) : (<Button
+                                                        type='text'
+                                                        variant="outlined"
+                                                        color="default"
+                                                        className={classes.submit}
+                                                        onClick={() => console.log('hacer invitado')}
+
+                                                    >Invitado</Button>)}
+                                                {/*           <Button onClick={() => makeAdmin(user.email)}>
+                                                    Hacer admin
+                                                    </Button> */}
+                                            </TableCell>
+
+
+                                        </TableRow>
+                                    ))
+                                }
+                            </TableBody>
+                        </Table>
+
+
+                    </div>
+                    <Box mt={5}>
+                    </Box>
+                </Grid>
+
             </Container>
         </div>
     );
 };
 
 export default withRouter(ModalRegister);
+
+
+
+/* {
+    user.role === 'Invitado' ? (<Button
+        type='text'
+        variant="outlined"
+        color="default"
+        className={classes.submit}
+        onClick={() => console.log('hacer invitado')}
+    >Miembro</Button>) : (<Button
+        type='text'
+        variant="outlined"
+        color="default"
+        className={classes.submit}
+        onClick={() => console.log('hacer miembro')}
+
+    >Invitado</Button>) */

@@ -73,10 +73,8 @@ const SignInSide = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState('');
-  //const [name, setName] = useState('');
-  //const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalPass, setModalPass] = useState(false);
-  const [register, setRegister] = useState(false);
+  const [loginForm, setLoginForm] = useState(true);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -90,10 +88,6 @@ const SignInSide = (props) => {
     }
     console.log('validando...');
     login();
-  };
-
-  const showModalRegister = () => {
-    setRegister(true);
   };
 
   const login = useCallback(async () => {
@@ -124,65 +118,71 @@ const SignInSide = (props) => {
             className={classes.logo}
             component="img"
           />
-          <form className={classes.form} noValidate
-            onSubmit={handleLogin}>
-            <TextField
 
-              margin="normal"
-              required
-              fullWidth
-              id="outlined-basic"
-              label="Correo Electronico"
+          {
+            loginForm ? (
+              <form className={classes.form} noValidate
+                onSubmit={handleLogin}>
+                <TextField
 
-              autoComplete="email"
-              autoFocus
-              onChange={e => setEmail(e.target.value)}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="outlined-basic"
+                  label="Correo"
 
-              label="Contraseña"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={e => setPassword(e.target.value)}
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="outlined"
-              color="default"
-              className={classes.submit}
-            >
-              Inicia Sesión
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2" color="inherit" onClick={() => setModalPass(true)} >
-                  ¿Olvidaste tu contraseña?
-                      {
-                    modalPass ? (<ModalPass setModalPass={setModalPass} />) : (null)
-                  }
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link variant="body2" color="inherit"
-                  onClick={showModalRegister}
-                      /* onClick={showModal} */ >
-                  {
-                    register ? (<ModalRegister setRegister={setRegister} />) : (null)
-                  }
-                  {"No tienes una cuenta? Registrate"}
-                </Link>
-              </Grid>
-            </Grid>
+                  autoComplete="email"
+                  autoFocus
+                  onChange={e => setEmail(e.target.value)}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
 
-            <Box mt={5}>
-              <Copyright />
-            </Box>
-          </form>
+                  label="Contraseña"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  onChange={e => setPassword(e.target.value)}
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="outlined"
+                  color="default"
+                  className={classes.submit}
+                >
+                  Iniciar Sesión
+                </Button>
+                <Grid container>
+                  <Grid item xs>
+                    <Link variant="body2" color="inherit" onClick={() => setLoginForm(false)}>
+                      {"¿No tienes una cuenta? Registrate"}
+                    </Link>
+                  </Grid>
+                  <Grid item>
+
+
+
+
+                    <Link href="#" variant="body2" color="inherit" onClick={() => setModalPass(true)} >
+                      ¿Olvidaste tu contraseña?
+                          {
+                        modalPass ? (<ModalPass setModalPass={setModalPass} />) : (null)
+                      }
+                    </Link>
+                  </Grid>
+                </Grid>
+
+              </form>) : (<ModalRegister setLoginForm={setLoginForm} />)
+
+          }
+
+          <Box mt={5}>
+            <Copyright />
+          </Box>
+
         </div>
       </Grid>
     </Grid>
