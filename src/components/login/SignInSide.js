@@ -95,7 +95,7 @@ const SignInSide = (props) => {
       const res = await firebase.auth().signInWithEmailAndPassword(email, password);
       console.log(res.user);
       setUser(res.user.email);
-      props.history.push('/Inicio');
+      props.history.push('/dashboard');
     } catch (err) {
       console.log(err);
       if (err.code === "auth/user-not-found") {

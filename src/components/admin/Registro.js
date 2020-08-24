@@ -3,25 +3,17 @@ import { firebase } from '../../firebase';
 import { withRouter } from 'react-router-dom';
 
 import Button from '@material-ui/core/Button';
-import CardMedia from '@material-ui/core/CardMedia';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Link from '@material-ui/core/Link';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import { firestore } from 'firebase';
+import { firestore, functions } from 'firebase';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -80,9 +72,7 @@ const ModalRegister = ({ setRegister, history }) => {
     /* 
         const makeAdmin = email => {
             console.log('admiiiiin', email);
-    
             const addRole = firebase.functions().httpsCallable('addNewAdmin');
-    
             addRole({ email: email })
                 .then(res => {
                     console.log(res);
@@ -90,15 +80,50 @@ const ModalRegister = ({ setRegister, history }) => {
                         console.log('no tiene permisos');
                         return;
                     }
-    
-                    firebase.firestore().collection('usuarios').doc(email).update({ role: 'admin' })
+                    firebase.firestore().collection('usuarios').doc(email).update({ role: 'Admin' })
                         .then(user => {
                             console.log('usuario modificado a administrador');
                             fetchUsuarios();
                         });
                 });
-        };
-     */
+        };*/
+
+    const makeMember = email => {
+        const addRole = firebase.functions().httpsCallable('createMember');
+        addRole({ email: email })
+            .then(res => {
+                console.log(res);
+                if (res.data.error) {
+                    console.log('no tiene permisos');
+                    return;
+                }
+                firebase.firestore().collection('usuarios').doc(email).update({ role: 'Miembro' })
+                    .then(user => {
+                        console.log('usuario modificado a miembro');
+                        fetchUsuarios();
+                    });
+
+            });
+    };
+
+    const deleteMember = email => {
+        const addRole = firebase.functions().httpsCallable('deleteMember');
+        addRole({ email: email })
+            .then(res => {
+                console.log(res);
+                if (res.data.error) {
+                    console.log('no tiene permisos');
+                    return;
+                }
+                firebase.firestore().collection('usuarios').doc(email).update({ role: 'Invitado' })
+                    .then(user => {
+                        console.log('usuario modificado a Invitado');
+                        fetchUsuarios();
+                    });
+
+            });
+    };
+
     return (
         <div>
             <Container maxWidth="lg" className={classes.container}>
@@ -108,15 +133,6 @@ const ModalRegister = ({ setRegister, history }) => {
                         <Typography component="h1" variant="h5">
                             Miembros
         </Typography>
-                        {/*                     {
-                        users.map(user => (
-                            <div key={user.uid}>
-                                {user.email} - {user.role}
-                            </div>
-                        ))
-                    } */}
-
-
                         <Table className='black-text'>
                             <TableHead>
                                 <TableRow>
@@ -136,23 +152,26 @@ const ModalRegister = ({ setRegister, history }) => {
                                             <TableCell>{user.role}</TableCell>
                                             <TableCell>
                                                 {
-                                                    user.role === 'Invitado' ? (<Button
+                                                    user.role === 'Invitado' && <Button
                                                         type='text'
                                                         variant="outlined"
                                                         color="default"
                                                         className={classes.submit}
-                                                        onClick={() => console.log('hacer miembro')}
-                                                    >Miembro</Button>) : (<Button
-                                                        type='text'
-                                                        variant="outlined"
-                                                        color="default"
-                                                        className={classes.submit}
-                                                        onClick={() => console.log('hacer invitado')}
-
-                                                    >Invitado</Button>)}
+                                                        onClick={() => makeMember(user.email)}
+                                                    >Miembro</Button>}
                                                 {/*           <Button onClick={() => makeAdmin(user.email)}>
                                                     Hacer admin
                                                     </Button> */}
+                                                {
+                                                    user.role === 'Miembro' && <Button
+                                                        type='text'
+                                                        variant="outlined"
+                                                        color="default"
+                                                        className={classes.submit}
+                                                        onClick={() => deleteMember(user.email)}
+                                                    >Invitado</Button>
+                                                }
+
                                             </TableCell>
 
 
@@ -174,21 +193,3 @@ const ModalRegister = ({ setRegister, history }) => {
 };
 
 export default withRouter(ModalRegister);
-
-
-
-/* {
-    user.role === 'Invitado' ? (<Button
-        type='text'
-        variant="outlined"
-        color="default"
-        className={classes.submit}
-        onClick={() => console.log('hacer invitado')}
-    >Miembro</Button>) : (<Button
-        type='text'
-        variant="outlined"
-        color="default"
-        className={classes.submit}
-        onClick={() => console.log('hacer miembro')}
-
-    >Invitado</Button>) */

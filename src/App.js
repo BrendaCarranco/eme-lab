@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { firebase } from './firebase';
 import Building from './components/buildingPage/Building';
@@ -7,12 +7,20 @@ import Reset from './components/login/Reset';
 import Dashboard from './components/Dashboard/Dashboard';
 import SignInSide from './components/login/SignInSide';
 import Admin from './components/admin/Admin';
+
+import { UserContext } from './context/UserProvider';
+import NoMember from './components/Dashboard/NoMember';
+
 function App() {
 
   const [firebaseUser, setFirebaseUser] = useState(null);
   const [fbName, setFbName] = useState('');
   const [fbMail, setFbMail] = useState('');
   const [usersFiles, setUsersFiles] = useState([]);
+
+
+  const { userProvider } = useContext(UserContext);
+
 
   //Observador
   useEffect(() => {
@@ -35,13 +43,25 @@ function App() {
         <Route exact path='/'>
           <Landing />
         </Route>
-
+        {/* 
         <Route path='/admin'>
           <Admin usersFiles={usersFiles} />
-        </Route>
+        </Route> */}
 
-        <Route path='/Inicio'>
-          <Dashboard firebaseUser={firebaseUser} setUsersFiles={setUsersFiles} usersFiles={usersFiles} fbMail={fbMail} />
+        <Route path='/dashboard'>
+
+          {
+            userProvider.role === 'Admin' && <Admin usersFiles={usersFiles} />
+          }
+          {
+            userProvider.role === 'Miembro' && <Dashboard firebaseUser={firebaseUser} setUsersFiles={setUsersFiles} usersFiles={usersFiles} fbMail={fbMail} />
+          }
+          {
+            userProvider.role === 'Invitado' && <NoMember />
+          }
+
+
+
         </Route>
 
         <Route path='/signin'>
