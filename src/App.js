@@ -21,6 +21,7 @@ function App() {
 
   const { userProvider } = useContext(UserContext);
 
+  console.log(userProvider, 'akaaaa');
 
   //Observador
   useEffect(() => {
@@ -68,9 +69,6 @@ function App() {
           <SignInSide />
         </Route>
 
-        <Route path='/Admin'>
-          <Admin />
-        </Route>
 
       </Switch>
     </BrowserRouter>

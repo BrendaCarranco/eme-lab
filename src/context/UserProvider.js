@@ -9,7 +9,7 @@ const UserProvider = (props) => {
     const dataInitialUser = {
         email: null,
         uid: null,
-        role: 'Invitado',
+        role: null,
         displayName: null
     };
 
@@ -36,7 +36,7 @@ const UserProvider = (props) => {
                                 role: 'Admin'
 
                             });
-                        } else if (!!idTokenResult.claims.miembro) {
+                        } else if (!!idTokenResult.claims.Member) {
                             console.log('es miembro');
                             setUserProvider({
                                 email: user.email,

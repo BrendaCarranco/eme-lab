@@ -62,7 +62,7 @@ const ModalRegister = ({ setRegister, history }) => {
 
     const fetchUsuarios = async () => {
         try {
-            const res = await firebase.firestore().collection('usuarios').get();
+            const res = await firebase.firestore().collection('usuarios').orderBy('date').get();
             const arrayUsers = res.docs.map(doc => doc.data());
             setUsers(arrayUsers);
         } catch (error) {
