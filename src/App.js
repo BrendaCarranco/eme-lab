@@ -7,9 +7,11 @@ import Reset from './components/login/Reset';
 import Dashboard from './components/Dashboard/Dashboard';
 import SignInSide from './components/login/SignInSide';
 import Admin from './components/admin/Admin';
+import Prices from './components/admin/Prices';
 
 import { UserContext } from './context/UserProvider';
 import NoMember from './components/Dashboard/NoMember';
+import Checkout from './components/Cotizacion/Checkout';
 
 function App() {
 
@@ -68,7 +70,6 @@ function App() {
         <Route path='/signin'>
           <SignInSide />
         </Route>
-
 
       </Switch>
     </BrowserRouter>

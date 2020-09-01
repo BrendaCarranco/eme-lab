@@ -1,5 +1,4 @@
-import React, { createContext, useEffect } from 'react';
-import { useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import { firebase } from '../firebase';
 
 export const UserContext = createContext();
@@ -14,6 +13,12 @@ const UserProvider = (props) => {
     };
 
     const [userProvider, setUserProvider] = useState(dataInitialUser);
+
+    const [paper, setPaper] = useState('');
+    const [size, setSize] = useState('');
+    const [cost, setCost] = useState('');
+
+    const [material, setMaterial] = useState([]);
 
 
     useEffect(() => {
@@ -63,6 +68,29 @@ const UserProvider = (props) => {
         });
     };
 
+
+
+    useEffect(() => {
+        const fetchMaterial = async () => {
+            try {
+
+                const db = firebase.firestore();
+                const usersFilesCollection = await db.collection('prueba').get();
+                const arrayData = await usersFilesCollection.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                //console.log(arrayData);
+                setMaterial(arrayData);
+
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        fetchMaterial();
+    }, [setMaterial]);
+
+    console.log(material);
+
+
+
     const userRegister = async (email, password, name) => {
         try {
             const res = await firebase.auth().createUserWithEmailAndPassword(email, password);
@@ -89,7 +117,7 @@ const UserProvider = (props) => {
     };
 
     return (
-        <UserContext.Provider value={{ userProvider, userRegister }} >
+        <UserContext.Provider value={{ userProvider, userRegister, setPaper, material, paper, setSize, cost, setCost }} >
             {props.children}
         </UserContext.Provider>
     );

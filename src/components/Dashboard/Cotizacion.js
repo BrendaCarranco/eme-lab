@@ -38,26 +38,30 @@ const Cotizacion = ({ firebaseUser, setUsersFiles, usersFiles }) => {
     setInput(username);
     if (!username) {
       return;
+    } if (fileUrl === null) {
+      alert('carga un archivo');
+      return;
+    } else {
+
+      const newUserFile = {
+        name: username,
+        fileLink: fileUrl,
+        date: currentTime,
+        email: firebaseUser.email,
+        user: firebaseUser.displayName,
+        status: 'Pendiente'
+      };
+      //esta sube la imegen 
+      firebase.firestore().collection('files').doc().set(newUserFile);
+      setUsersFiles([
+        ...usersFiles,
+        { ...newUserFile }
+
+      ]);
+      setInput('');
+      setFileUrl('');
+      return alert('archivo subido');
     }
-
-    const newUserFile = {
-      name: username,
-      fileLink: fileUrl,
-      date: currentTime,
-      email: firebaseUser.email,
-      user: firebaseUser.displayName,
-      status: 'Pendiente'
-    };
-    //esta sube la imegen 
-    firebase.firestore().collection('files').doc().set(newUserFile);
-    setUsersFiles([
-      ...usersFiles,
-      { ...newUserFile }
-
-    ]);
-    setInput('');
-    setFileUrl('');
-    return alert('archivo subido');
   };
 
   /*   const emailUpdate = async () => {

@@ -36,6 +36,7 @@ import Historial from './Historial.js';
 import Membresias from './Membresias.js';
 
 import { UserContext } from '../../context/UserProvider';
+import Checkout from '../Cotizacion/Checkout';
 
 function Copyright() {
   return (
@@ -269,6 +270,7 @@ const Dashboard = ({ firebaseUser, history, setUsersFiles, usersFiles, fbMail })
                 <Grid item xs={12} md={12} lg={12}>
                   <Paper className={fixedHeightPaper}>
                     <Cotizacion firebaseUser={firebaseUser} setUsersFiles={setUsersFiles} usersFiles={usersFiles} />
+                    <Checkout />
                   </Paper>
                 </Grid>) : (null)
             }

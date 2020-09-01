@@ -39,6 +39,7 @@ import 'moment/locale/es';
 
 import logoeme from '../../img/logoeme.png';
 import Registro from './Registro';
+import Prices from './Prices';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
