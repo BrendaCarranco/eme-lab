@@ -1,7 +1,6 @@
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
-import CameraIcon from '@material-ui/icons/PhotoCamera';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -15,6 +14,8 @@ import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
 import logoeme from '../../img/logoeme.png';
+import {ThemeProvider} from '@material-ui/core/styles'
+import theme from '../../temaConfig';
 
 function Copyright() {
   return (
@@ -60,13 +61,20 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(6),
   },
   logo: {
-    height: '90px',
-    width: '160px',
-    paddingTop:'15px',
+    height: '145px',
+    width: '245px',
+    paddingTop:'40px',
+    paddingLeft:'20px',
+  },
+  button: {
+    paddingTop:'100px',
+    fontSize: '23px',
+    textTransform: 'none',
   },
   toolbar: {
   
-    height: '120px',
+    height: '180px',
+  
   },
   grow: {
     flexGrow: 1,
@@ -79,9 +87,9 @@ export default function Landing() {
   const classes = useStyles();
 
   return (
-    <React.Fragment>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AppBar position="relative" className={classes.toolbar} color="inherent">
+      <AppBar position="sticky" className={classes.toolbar} color="inherent" elevation={0}>
         <Toolbar>
         <CardMedia
             title="logo"
@@ -92,28 +100,32 @@ export default function Landing() {
             
           />
           <div className={classes.grow} />
-          <Button>
+          <Button className={classes.button} variant="text" size="large">
             Nosotros
           </Button>
-          <Button>
+          <Button className={classes.button} variant="text" size="large">
             Servicios
         </Button>
-        <Button>
+        <Button className={classes.button} variant="text" size="large"> 
             Membresías
         </Button>
        
-          <Button>
+          <Button className={classes.button} variant="text" size="large">
             Cotiza tu proyecto
             </Button>
-          <Button>
+          <Button className={classes.button} variant="text" size="large">
             Contacto
+            </Button>
+            <Button className={classes.button} variant="text" size="large">
+            Cuenta
             </Button>
         </Toolbar>
       </AppBar>
       <Box 
       border={1}
       m={4}
-      p={40}>
+      p={40}
+      bgcolor="inherent">
 
       </Box>
       <div>
@@ -126,14 +138,15 @@ export default function Landing() {
                width={1/2}
                left>
                   <Typography component="div" color="initial" variant="body1">
-                    <Box fontSize={30}>
+                    <Box fontSize={35} lineHeight="normal">
                     Somos un espacio dedicado a la fotografía, el arte,
                     la conservación y la reproducción de la imagen por
                     medios digitales y análogos.
                     </Box>
-                    <Box fontSize={30}>
+                    <Box p={2}></Box>
+                    <Box fontSize={35} lineHeight="normal">
                     Contamos con un sistema de edición e impresión
-                    de última generación.
+                    de última generación.<br/>
                     Ofrecemos una amplia gama de papeles para
                     impresión, así como con un laboratorio equipado para
                     revelado de película blanco y negro y color, en distintos
@@ -142,11 +155,11 @@ export default function Landing() {
                     Nuestro equipo de postproducción cuenta con mas
                     de 10 años de experiencia.
                     </Box>
-                    <Box m={10}
+                    <Box m={10} 
                         p={5}>
 
                     </Box>
-                    <Box fontSize={30}>
+                    <Box fontSize={35} lineHeight="normal">
                     Ofrecemos servicios de conservación y restauración,
                     avalados por mas de 20 años de experiencia en el oficio.
                     Trabajamos con sistemas de almacenaje y servicios
@@ -161,32 +174,24 @@ export default function Landing() {
               <Box 
                m={10}
                >
-                   <Box fontSize="h3.fontSize">
+                   <Box fontSize="h4.fontSize">
                    Digitalización
                    </Box>
-                   <Box fontSize="h5.fontSize">
-                   Digitalización de negativos con
-                    sensor CMOS Full Frame de 50.6 megapixeles
-                    </Box>
-                    <Box fontSize="h5.fontSize">
-                    Cama plana Epson V850 Pro
-                   </Box>
-                   <Box fontSize="h3.fontSize">
+                   <Box fontSize="h4.fontSize">
                    Revelado
                    </Box>
-                   <Box fontSize="h5.fontSize">
-                   Blanco y Negro
-                    </Box>
-                    <Box fontSize="h5.fontSize">
-                    Color
-                   </Box>
-                   <Box fontSize="h3.fontSize">
+                   <Box fontSize="h4.fontSize">
                    Impresión
                    </Box>
-                   <Box fontSize="h5.fontSize">
-                   Impresión digital con inyección
-                   de tintas EPSON Ultrachrome HDX
-                    </Box>
+                   <Box fontSize="h4.fontSize" lineHeight="normal">
+                   Conservación y restauracion<br/>
+                   de fotografías y documentos
+                   </Box>
+                   <Box fontSize="h4.fontSize" lineHeight="normal">
+                   Digitalización de materiales<br/>
+                   fotográficos y obras de arte
+                   </Box>
+                   
                     
 
                </Box>
@@ -200,48 +205,129 @@ export default function Landing() {
             <Grid item xs={6}> 
               <Box 
                m={10}
+               >
+                   <Box fontSize="h4.fontSize">
+                   Digitalización
+                   </Box>
+                   <Box p={3}></Box>
+                   <Box fontSize="h4.fontSize" lineHeight="normal">
+                   Digitalización de negativos con<br/>
+                  sensor CMOS Full Frame de 50.6 megapixeles
+                   </Box>
+                   <Box fontSize="h4.fontSize">
+                   Cama plana Epson V850 Pro
+                   </Box>
+                  
+                    
+
+               </Box>
+            </Grid>
+            <Grid item xs={6}> 
+              <Box 
+               border={1}
+               m={10}
+               p={20}
+               mt={40}></Box>
+            </Grid>
+            <Grid item xs={6}> 
+              <Box 
+               m={10}
+               >
+                   <Box fontSize="h4.fontSize">
+                   Revelado
+                   </Box>
+                   <Box p={3}></Box>
+                   <Box fontSize="h4.fontSize" lineHeight="normal">
+                   Blanco y Negro
+                   </Box>
+                   <Box fontSize="h4.fontSize">
+                   Color
+                   </Box>
+                  
+                    
+
+               </Box>
+            </Grid>
+            <Grid item xs={6}> 
+              <Box 
+               border={1}
+               m={10}
+               p={20}
+               mt={40}></Box>
+            </Grid>
+            <Grid item xs={6}> 
+              <Box 
+               m={10}
+               >
+                   <Box fontSize="h4.fontSize">
+                   Impresión
+                   </Box>
+                   <Box p={3}></Box>
+                   <Box fontSize="h4.fontSize" lineHeight="normal">
+                   Impresión digital con inyección<br/>
+                    de tintas EPSON Ultrachrome HDX
+                   </Box>
+                   
+                  
+                    
+
+               </Box>
+            </Grid>
+            <Grid item xs={6}> 
+              <Box 
+               border={1}
+               m={10}
+               p={20}
+               mt={40}></Box>
+            </Grid>
+            <Grid item xs={6}> 
+              <Box 
+               m={10}
             >
-                   <Box fontSize="h3.fontSize">
+                   <Box fontSize="h4.fontSize" lineHeight="normal">
                    Conservación y restauracion
 de fotografías y documentos
                    </Box>
-                   <Box fontSize="h5.fontSize">
+                   <Box p={3}></Box>
+                   <Box fontSize="h4.fontSize" lineHeight="normal">
                    Estabilización y consolidación de emulsiones
                     </Box>
-                   <Box fontSize="h5.fontSize">
+                   <Box fontSize="h4.fontSize" lineHeight="normal">
                    Limpieza de obras
                    </Box>
-                   <Box fontSize="h5.fontSize">
+                   <Box fontSize="h4.fontSize" lineHeight="normal">
                    Tratamientos para la detención de la degradación
                    </Box>
-                   <Box fontSize="h5.fontSize">
+                   <Box fontSize="h4.fontSize" lineHeight="normal">
                    Restauración de marcos y sistemas de montaje
                    </Box>
-                   <Box fontSize="h5.fontSize">
+                   <Box fontSize="h4.fontSize" lineHeight="normal">
                    Creación de embalajes de protección especiales
                    </Box>
-                   <Box fontSize="h5.fontSize">
+                   <Box fontSize="h4.fontSize" lineHeight="normal">
                    Producción e facsímiles para exposición
                    </Box>
-                   <Box fontSize="h5.fontSize">
+                   <Box fontSize="h4.fontSize" lineHeight="normal">
                    Montajes para exposición siguiendo normas de durabilidad y conservación museográfica
                    </Box>
                    <Box p={10}>
 
                    </Box>
-                   <Box fontSize="h3.fontSize">
-                   Digitalización de materiales
-fotográficos y obras de arte
+                   <Box fontSize="h4.fontSize" lineHeight="normal">
+                   Digitalización de materiales<br/>
+                    fotográficos y obras de arte
                    </Box>
-                   <Box fontSize="h5.fontSize">
-                   Las fotografías, inevitablemente, se deterioran con el paso del tiempo.
-Al digitalizar una obra, aseguramos la posibilidad de poder apreciar
-y estudiar esta pieza, aún cuando el original sufra deterioros o pérdidas.
+                   <Box p={3}></Box>
+                   <Box fontSize="h4.fontSize" lineHeight="normal">
+                   Las fotografías, inevitablemente, se deterioran con el paso del tiempo.<br/>
+                    Al digitalizar una obra, aseguramos la posibilidad de<br/> poder apreciar
+                      y estudiar esta pieza, aún cuando el<br/> original sufra deterioros o pérdidas.
                     </Box>
-                   <Box fontSize="h5.fontSize">
-                   Acondicionamiento, limpieza y preparación de piezas para digitalización
-Digitalización y Reproducción de obras de arte
-Inserción de metadatos y catalogación
+                    <Box p={3}></Box>
+                   <Box fontSize="h4.fontSize" lineHeight="normal">
+                   Acondicionamiento, limpieza y preparación de piezas<br/> para digitalización.<br/>
+                    Digitalización y Reproducción de obras de arte<br/>
+                    Inserción de metadatos y catalogación.
                    </Box>
                   
                    
@@ -255,7 +341,7 @@ Inserción de metadatos y catalogación
               <Box 
                border={1}
                m={10}
-              height="1000px"
+              height="1400px"
                width="80%"></Box>
             </Grid>
             
@@ -273,6 +359,6 @@ Inserción de metadatos y catalogación
         <Copyright />
       </footer>
       {/* End footer */}
-    </React.Fragment>
+    </ThemeProvider>
   );
 }
