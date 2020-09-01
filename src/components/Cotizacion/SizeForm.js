@@ -28,7 +28,8 @@ export default function SizeForm() {
     //setValue(event.target.value);
     setId(e.target.name);
     console.log(id);
-    setSize(e.target.value);
+    setSize(e.target.name);
+    setCost(e.target.value);
   };
   useEffect(() => {
     filterData();

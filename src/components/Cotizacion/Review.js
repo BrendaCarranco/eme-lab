@@ -15,7 +15,7 @@ import moment from 'moment';
 import 'moment/locale/es';
 
 
-import {UserContext} from '../../context/UserProvider'
+import { UserContext } from '../../context/UserProvider';
 
 
 
@@ -43,18 +43,11 @@ export default function Review({ firebaseUser, setUsersFiles, usersFiles }) {
   //const [usersFiles, setUsersFiles] = useState([]);
 
   //Lectura de formularios
-  
-  const {paper} = useContext(UserContext);
 
-  console.log(paper, 'paper review')
+  const { paper, fullPaperName, size, cost, userProvider } = useContext(UserContext);
 
-  const {size} = useContext(UserContext);
-
-  console.log(size, 'size review')
-  
-  
   //Lectura de precios
-  
+
   const [precio, setPrecio] = useState([]);
 
   useEffect(() => {
@@ -68,56 +61,45 @@ export default function Review({ firebaseUser, setUsersFiles, usersFiles }) {
       }));
     };
     fetchGetPrecios();
-    
+
   }, [setPrecio]);
 
-
-  
-
-
-
- 
-  
-  
-
+  console.log(userProvider);
 
   let time = Date.now();
   let timeFormat = moment(time).format('LLL');
 
   const handleChangeFile = async e => {
     const file = e.target.files[0];
-    const storageRef = firebase.storage().ref('Cotizaciones').child(firebaseUser.email);
+    const storageRef = firebase.storage().ref('Cotizaciones').child(userProvider.email);
     const fileRef = storageRef.child(file.name);
+    console.log(file);
     await fileRef.put(file);
     setFileUrl(await fileRef.getDownloadURL());
   };
 
- 
+
   const handleSubmit = e => {
     e.preventDefault();
     //console.log('submit');
 
-    const username = e.target.username.value;
-    setInput(username);
-    if (!username) {
-      return;
-    }
+    /*    const username = e.target.username.value;
+       setInput(username);
+       if (!username) {
+         return;
+       } */
 
     const newUserFile = {
-      name: username,
+      //name: username,
       fileLink: fileUrl,
-      date: timeFormat,
-      email: firebaseUser.email,
-      user: firebaseUser.displayName,
+      date: time,
+      email: userProvider.email,
+      user: userProvider.displayName,
+      extra: input,
       status: 'Pendiente'
     };
     //esta sube la imegen 
     firebase.firestore().collection('files').doc().set(newUserFile);
-    setUsersFiles([
-      ...usersFiles,
-      { ...newUserFile }
-
-    ]);
     setInput('');
     setFileUrl('');
     return alert('archivo subido');
@@ -128,79 +110,107 @@ export default function Review({ firebaseUser, setUsersFiles, usersFiles }) {
       <Typography variant="h6" gutterBottom>
         Papel Seleccionado
       </Typography>
-      
+
       <Typography variant="body2">
-             {paper}
+        {fullPaperName}
       </Typography>
-        
-          
-            
-            
-          
-          
-      
-     
+
+
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <Typography variant="h6" gutterBottom className={classes.title}>
-           Tamaño Seleccionado
+            Tamaño Seleccionado
           </Typography>
           <Typography gutterBottom>
-          {size}
+            {size} cm
           </Typography>
           <Typography variant="h6" gutterBottom className={classes.title}>
-           Costo
+            Costo
           </Typography>
           <List disablePadding>
-          {
-          precio.map(item => (
-          <ListItem className={classes.listItem} key={item.Bamboo} >
-            <ListItemText />
-            <Typography variant="body2">
-            $ {item.medida1}
-            </Typography>
-          </ListItem>
-            ))
-          }
+            ${cost} MXN.
           </List>
-         
-         
-         
-         
+
         </Grid>
-        <form onSubmit={handleSubmit}>
-        <Grid container spacing={3}>
-        <Grid item xs={12} sm={6}>
-        <Typography variant="h6" gutterBottom className={classes.title}>
-           Selecciona tu archivo
+        {/*         <form onSubmit={handleSubmit}>
+
+          
+
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="outlined-basic"
+            label="Datos extra"
+            name='username'
+            onChange={e => setInput(e.target.value)}
+            value={input}
+
+          />
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="h6" gutterBottom className={classes.title}>
+                Selecciona tu archivo
         </Typography>
-        </Grid>
-      <Grid item xs={12} sm={6}>
-      
-      <div>
-      <input
-        accept="image/*"
-        className={classes.input}
-        id="contained-button-file"
-        multiple
-        type="file"
-        name='file'
-        required
-        onChange={handleChangeFile}
-      />
-      <label htmlFor="contained-button-file">
-        <Button variant="contained" color="primary" component="span">
-          Subir
-        </Button>
-      </label>
-      <input className={classes.input} id="icon-button-file" type="file"  name='file' required onChange={handleChangeFile}/>
-      <label htmlFor="icon-button-file">
-        <IconButton color="primary" aria-label="upload picture" component="span">
-          <FileCopyIcon />
-        </IconButton>
-      </label>
-    </div>
-    </Grid>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+
+              <div>
+                <input
+                  //accept="image/*"
+                  className={classes.input}
+                  id="contained-button-file"
+                  multiple
+                  type="file"
+                  name='file'
+                  required
+                  onChange={handleChangeFile}
+                />
+                <label htmlFor="contained-button-file">
+
+                </label>
+                <input className={classes.input} id="icon-button-file" type="file" name='file' required onChange={handleChangeFile} />
+                <label htmlFor="icon-button-file">
+                  <IconButton color="primary" aria-label="upload picture" component="span">
+                    <FileCopyIcon />
+                  </IconButton>
+                </label>
+              </div>
+            </Grid>
+            <Button
+              type="submit"
+              fullWidth
+              variant="outlined"
+              color="default"
+            >Enviar</Button>
+
+          </Grid>
+        </form> */}
+
+        <form onSubmit={handleSubmit}>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="outlined-basic"
+            label="Datos extra"
+            name='extra'
+            onChange={e => setInput(e.target.value)}
+            value={input}
+
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="outlined-basic"
+            name='file'
+            type='file'
+            onChange={handleChangeFile}
+          />
           <Button
             type="submit"
             fullWidth
@@ -208,13 +218,15 @@ export default function Review({ firebaseUser, setUsersFiles, usersFiles }) {
             color="default"
           >Enviar</Button>
 
-          </Grid>
-          </form>
 
-          
-        
+
+        </form>
+
+
+
+
       </Grid>
-    </React.Fragment>
+    </React.Fragment >
   );
 }
 

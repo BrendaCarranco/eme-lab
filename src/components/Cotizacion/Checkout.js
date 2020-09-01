@@ -68,12 +68,12 @@ const steps = ['Selecciona un papel', 'Selecciona el tamaño', 'Revisa tu orden'
 
 function getStepContent(step) {
 
-  
+
   switch (step) {
     case 0:
-      return <PaperForm  />;
+      return <PaperForm />;
     case 1:
-      return <SizeForm  />;
+      return <SizeForm />;
     case 2:
       return <Review />;
     default:
@@ -105,7 +105,7 @@ export default function Checkout() {
       </AppBar>
       <main className={classes.layout}>
         <Paper className={classes.paper}>
-          
+
           <Stepper activeStep={activeStep} className={classes.stepper}>
             {steps.map((label) => (
               <Step key={label}>
@@ -124,25 +124,25 @@ export default function Checkout() {
                 </Typography>
               </React.Fragment>
             ) : (
-              <React.Fragment>
-                {getStepContent(activeStep)}
-                <div className={classes.buttons}>
-                  {activeStep !== 0 && (
-                    <Button onClick={handleBack} className={classes.button}>
-                      Atrás
+                <React.Fragment>
+                  {getStepContent(activeStep)}
+                  <div className={classes.buttons}>
+                    {activeStep !== 0 && (
+                      <Button onClick={handleBack} className={classes.button}>
+                        Atrás
+                      </Button>
+                    )}
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleNext}
+                      className={classes.button}
+                    >
+                      {activeStep === steps.length - 1 ? 'Place order' : 'Siguiente'}
                     </Button>
-                  )}
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    className={classes.button}
-                  >
-                    {activeStep === steps.length - 1 ? 'Place order' : 'Siguiente'}
-                  </Button>
-                </div>
-              </React.Fragment>
-            )}
+                  </div>
+                </React.Fragment>
+              )}
           </React.Fragment>
         </Paper>
         <Copyright />

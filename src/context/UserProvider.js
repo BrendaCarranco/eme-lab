@@ -17,6 +17,7 @@ const UserProvider = (props) => {
     const [paper, setPaper] = useState('');
     const [size, setSize] = useState('');
     const [cost, setCost] = useState('');
+    const [fullPaperName, setFullPaperName] = useState('');
 
     const [material, setMaterial] = useState([]);
 
@@ -75,7 +76,7 @@ const UserProvider = (props) => {
             try {
 
                 const db = firebase.firestore();
-                const usersFilesCollection = await db.collection('prueba').get();
+                const usersFilesCollection = await db.collection('precios').get();
                 const arrayData = await usersFilesCollection.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 //console.log(arrayData);
                 setMaterial(arrayData);
@@ -117,7 +118,7 @@ const UserProvider = (props) => {
     };
 
     return (
-        <UserContext.Provider value={{ userProvider, userRegister, setPaper, material, paper, setSize, cost, setCost }} >
+        <UserContext.Provider value={{ userProvider, userRegister, setPaper, material, paper, setSize, cost, setCost, fullPaperName, setFullPaperName, size }} >
             {props.children}
         </UserContext.Provider>
     );
