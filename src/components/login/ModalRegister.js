@@ -60,20 +60,23 @@ const ModalRegister = ({ setLoginForm }) => {
     const [passwordReg, setPasswordReg] = useState('');
     const [name, setName] = useState('');
 
+    const [instructions, setInstructions] = useState(false);
+
     const { userRegister } = useContext(UserContext);
 
     const handleRegister = (e) => {
         e.preventDefault();
         if (!email.trim()) {
-            console.log('mete un correo');
+            console.log('Ingresa un correo');
             return;
         }
         if (!passwordReg.trim()) {
-            console.log('mete contraseña');
+            console.log('Ingresa contraseña');
             return;
         }
         console.log('validando...');
         userRegister(email, passwordReg, name);
+        setInstructions(true);
         setEmail('');
         setPasswordReg('');
         setName('');
@@ -135,6 +138,15 @@ const ModalRegister = ({ setLoginForm }) => {
                 >
                     Registarme
                             </Button>
+                {
+                    instructions && (
+                        <Grid item xs>
+                            <Typography variant="h6" color="inherit" >
+                                Enviamos los pasos para activar tu membresía a tu correo.
+                                Si no encuentras el correo en tu bandeja de entrada, revisa también tu carpeta de correo no deseado.
+                        </Typography>
+                        </Grid>)
+                }
                 <Grid item xs>
                     <Link variant="body2" color="inherit" onClick={() => setLoginForm(true)} >
                         Ya tengo una cuenta

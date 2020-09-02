@@ -14,19 +14,6 @@ import PaperForm from './PaperForm';
 import SizeForm from './SizeForm';
 import Review from './Review';
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: 'relative',
@@ -68,12 +55,12 @@ const steps = ['Selecciona un papel', 'Selecciona el tamaño', 'Revisa tu orden'
 
 function getStepContent(step) {
 
-  
+
   switch (step) {
     case 0:
-      return <PaperForm  />;
+      return <PaperForm />;
     case 1:
-      return <SizeForm  />;
+      return <SizeForm />;
     case 2:
       return <Review />;
     default:
@@ -105,7 +92,7 @@ export default function Checkout() {
       </AppBar>
       <main className={classes.layout}>
         <Paper className={classes.paper}>
-          
+
           <Stepper activeStep={activeStep} className={classes.stepper}>
             {steps.map((label) => (
               <Step key={label}>
@@ -115,37 +102,33 @@ export default function Checkout() {
           </Stepper>
           <React.Fragment>
             {activeStep === steps.length ? (
-              <React.Fragment>
-                <Typography variant="h5" gutterBottom>
-                  Gracias por tu orden.
-                </Typography>
-                <Typography variant="subtitle1">
-                  Enviamos a tu correo la confirmación de la ordén con datos para realizar el pago. Gracias.
-                </Typography>
-              </React.Fragment>
+              null
             ) : (
-              <React.Fragment>
-                {getStepContent(activeStep)}
-                <div className={classes.buttons}>
-                  {activeStep !== 0 && (
-                    <Button onClick={handleBack} className={classes.button}>
-                      Atrás
-                    </Button>
-                  )}
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    className={classes.button}
-                  >
-                    {activeStep === steps.length - 1 ? 'Place order' : 'Siguiente'}
-                  </Button>
-                </div>
-              </React.Fragment>
-            )}
+                <React.Fragment>
+                  {getStepContent(activeStep)}
+                  <div className={classes.buttons}>
+                    {activeStep !== 0 && (
+                      <Button onClick={handleBack} className={classes.button}>
+                        Atrás
+                      </Button>
+                    )}
+                    {
+                      activeStep === steps.length - 1 ? null : (
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={handleNext}
+                          className={classes.button}
+                        >
+                          Siguiente
+                        </Button>
+                      )
+                    }
+                  </div>
+                </React.Fragment>
+              )}
           </React.Fragment>
         </Paper>
-        <Copyright />
       </main>
     </React.Fragment>
   );

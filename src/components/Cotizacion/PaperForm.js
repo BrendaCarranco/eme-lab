@@ -14,7 +14,7 @@ import Paper from '@material-ui/core/Paper';
 
 export default function PaperForm() {
 
-  const { paper, setPaper } = useContext(UserContext);
+  const { paper, setPaper, setFullPaperName } = useContext(UserContext);
 
   ///const [value, setValue] = useState('')
 
@@ -22,6 +22,7 @@ export default function PaperForm() {
   const handleChange = (e) => {
     //setValue(event.target.value);
     setPaper(e.target.value);
+    setFullPaperName(e.target.name);
   };
 
   return (
@@ -37,7 +38,7 @@ export default function PaperForm() {
                 <Typography align="center">
                   Hahnemhüle Bamboo  290 g
             </Typography>
-                <FormControlLabel id="Bamboo" value="Bamboo" control={<Radio />} />
+                <FormControlLabel name="Hahnemhüle Bamboo  290 g" value="Bamboo" control={<Radio />} />
               </Paper>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -45,7 +46,7 @@ export default function PaperForm() {
                 <Typography align="center">
                   Hahnemühle Rice Paper 100 g
             </Typography>
-                <FormControlLabel id="Rice" value="Rice" control={<Radio />} />
+                <FormControlLabel name="Hahnemühle Rice Paper 100 g" value="Rice" control={<Radio />} />
               </Paper>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -53,7 +54,7 @@ export default function PaperForm() {
                 <Typography align="center">
                   Hahnemühle Photo Matt Fibre 200g
             </Typography>
-                <FormControlLabel id="Matt" value="Hahnemühle Photo Matt Fibre 200g" control={<Radio />} />
+                <FormControlLabel value="Matt" name="Hahnemühle Photo Matt Fibre 200g" control={<Radio />} />
               </Paper>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -61,7 +62,7 @@ export default function PaperForm() {
                 <Typography align="center">
                   Hahnemühle Photo Silk Baryta 310 g
             </Typography>
-                <FormControlLabel id="Silk" value="Hahnemühle Photo Silk Baryta 310 g" control={<Radio />} />
+                <FormControlLabel value="Silk" name="Hahnemühle Photo Silk Baryta 310 g" control={<Radio />} />
               </Paper>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -69,7 +70,7 @@ export default function PaperForm() {
                 <Typography align="center">
                   EPSON Pap. Enhanced Mate
             </Typography>
-                <FormControlLabel id="Epson" value="EPSON Pap. Enhanced Mate" control={<Radio />} />
+                <FormControlLabel value="EpsonM" name="EPSON Pap. Enhanced Mate" control={<Radio />} />
               </Paper>
             </Grid>
           </Grid>
