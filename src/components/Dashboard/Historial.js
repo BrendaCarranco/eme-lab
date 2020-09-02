@@ -46,7 +46,6 @@ export default function Historial({ setUsersFiles, usersFiles, fbMail }) {
       <Table className='black-text'>
         <TableHead>
           <TableRow>
-            <TableCell>Nombre</TableCell>
             <TableCell>Fecha</TableCell>
             <TableCell>Status</TableCell>
           </TableRow>
@@ -56,7 +55,6 @@ export default function Historial({ setUsersFiles, usersFiles, fbMail }) {
             usersFiles.map(item => (
               <TableRow >
 
-                <TableCell key={item.id}>{item.name}</TableCell>
                 <TableCell> {moment(item.date).format('LLL')} </TableCell>
                 <TableCell>{item.status}</TableCell>
 

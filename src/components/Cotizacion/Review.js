@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
@@ -50,6 +50,8 @@ export default function Review({ firebaseUser, setUsersFiles, usersFiles }) {
 
   const [precio, setPrecio] = useState([]);
 
+  const [end, setEnd] = useState(false);
+
   useEffect(() => {
     const fetchGetPrecios = async () => {
       const getPreciosCollection = await firebase
@@ -81,6 +83,7 @@ export default function Review({ firebaseUser, setUsersFiles, usersFiles }) {
 
   const handleSubmit = e => {
     e.preventDefault();
+    setEnd(true);
     //console.log('submit');
 
     /*    const username = e.target.username.value;
@@ -93,6 +96,7 @@ export default function Review({ firebaseUser, setUsersFiles, usersFiles }) {
       //name: username,
       fileLink: fileUrl,
       date: time,
+      dateFormat: timeFormat,
       email: userProvider.email,
       user: userProvider.displayName,
       extra: input,
@@ -106,126 +110,80 @@ export default function Review({ firebaseUser, setUsersFiles, usersFiles }) {
   };
 
   return (
+
+
+
+
     <React.Fragment>
-      <Typography variant="h6" gutterBottom>
-        Papel Seleccionado
+      {
+        end ? (
+          <React.Fragment>
+            <Typography variant="h5" gutterBottom>
+              Gracias por tu orden.
+          </Typography>
+            <Typography variant="subtitle1">
+              Enviamos a tu correo la confirmación de la ordén con datos para realizar el pago. Gracias.
+          </Typography>
+          </React.Fragment>
+        ) : (
+
+            <Fragment>
+              <Typography variant="h6" gutterBottom>
+                Papel
       </Typography>
 
-      <Typography variant="body2">
-        {fullPaperName}
-      </Typography>
-
-
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <Typography variant="h6" gutterBottom className={classes.title}>
-            Tamaño Seleccionado
+              <Typography variant="body2">
+                {fullPaperName}
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="h6" gutterBottom className={classes.title}>
+                    Tamaño
           </Typography>
-          <Typography gutterBottom>
-            {size} cm
+                  <Typography gutterBottom>
+                    {size} cm
           </Typography>
-          <Typography variant="h6" gutterBottom className={classes.title}>
-            Costo
+                  <Typography variant="h6" gutterBottom className={classes.title}>
+                    Costo
           </Typography>
-          <List disablePadding>
-            ${cost} MXN.
+                  <List disablePadding>
+                    ${cost} MXN.
           </List>
+                </Grid>
+                <form onSubmit={handleSubmit}>
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth
+                    id="outlined-basic"
+                    label="Datos extra"
+                    name='extra'
+                    onChange={e => setInput(e.target.value)}
+                    value={input}
+                  />
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="outlined-basic"
+                    name='file'
+                    type='file'
+                    onChange={handleChangeFile}
+                  />
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="outlined"
+                    color="default"
+                  >Enviar</Button>
+                </form>
+              </Grid>
+            </Fragment>
 
-        </Grid>
-        {/*         <form onSubmit={handleSubmit}>
+          )
+      }
 
-          
-
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="outlined-basic"
-            label="Datos extra"
-            name='username'
-            onChange={e => setInput(e.target.value)}
-            value={input}
-
-          />
-          <Grid container spacing={3}>
-            <Grid item xs={12} sm={6}>
-              <Typography variant="h6" gutterBottom className={classes.title}>
-                Selecciona tu archivo
-        </Typography>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-
-              <div>
-                <input
-                  //accept="image/*"
-                  className={classes.input}
-                  id="contained-button-file"
-                  multiple
-                  type="file"
-                  name='file'
-                  required
-                  onChange={handleChangeFile}
-                />
-                <label htmlFor="contained-button-file">
-
-                </label>
-                <input className={classes.input} id="icon-button-file" type="file" name='file' required onChange={handleChangeFile} />
-                <label htmlFor="icon-button-file">
-                  <IconButton color="primary" aria-label="upload picture" component="span">
-                    <FileCopyIcon />
-                  </IconButton>
-                </label>
-              </div>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="outlined"
-              color="default"
-            >Enviar</Button>
-
-          </Grid>
-        </form> */}
-
-        <form onSubmit={handleSubmit}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="outlined-basic"
-            label="Datos extra"
-            name='extra'
-            onChange={e => setInput(e.target.value)}
-            value={input}
-
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="outlined-basic"
-            name='file'
-            type='file'
-            onChange={handleChangeFile}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="outlined"
-            color="default"
-          >Enviar</Button>
-
-
-
-        </form>
-
-
-
-
-      </Grid>
     </React.Fragment >
   );
 }

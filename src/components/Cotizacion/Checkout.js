@@ -14,19 +14,6 @@ import PaperForm from './PaperForm';
 import SizeForm from './SizeForm';
 import Review from './Review';
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: 'relative',
@@ -115,14 +102,7 @@ export default function Checkout() {
           </Stepper>
           <React.Fragment>
             {activeStep === steps.length ? (
-              <React.Fragment>
-                <Typography variant="h5" gutterBottom>
-                  Gracias por tu orden.
-                </Typography>
-                <Typography variant="subtitle1">
-                  Enviamos a tu correo la confirmación de la ordén con datos para realizar el pago. Gracias.
-                </Typography>
-              </React.Fragment>
+              null
             ) : (
                 <React.Fragment>
                   {getStepContent(activeStep)}
@@ -132,20 +112,23 @@ export default function Checkout() {
                         Atrás
                       </Button>
                     )}
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleNext}
-                      className={classes.button}
-                    >
-                      {activeStep === steps.length - 1 ? 'Place order' : 'Siguiente'}
-                    </Button>
+                    {
+                      activeStep === steps.length - 1 ? null : (
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={handleNext}
+                          className={classes.button}
+                        >
+                          Siguiente
+                        </Button>
+                      )
+                    }
                   </div>
                 </React.Fragment>
               )}
           </React.Fragment>
         </Paper>
-        <Copyright />
       </main>
     </React.Fragment>
   );

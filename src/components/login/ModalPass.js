@@ -145,7 +145,7 @@ const ModalPass = ({ setModalPass, history }) => {
                             {
                                 instructions === true && (<Typography variant="body2"     >
                                     Te enviamos un correo con la liga para recuperar tu contraseña.
-                                    Si no ves el correo en tu bandeja de entrada, revisa también tu carpeta de correo no deseado.
+                                    Si no encuentras el correo en tu bandeja de entrada, revisa también tu carpeta de correo no deseado.
                                 </Typography>)
                             }
 

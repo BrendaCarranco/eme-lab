@@ -269,7 +269,6 @@ const Dashboard = ({ firebaseUser, history, setUsersFiles, usersFiles, fbMail })
               newCot ? (
                 <Grid item xs={12} md={12} lg={12}>
                   <Paper className={fixedHeightPaper}>
-                    <Cotizacion firebaseUser={firebaseUser} setUsersFiles={setUsersFiles} usersFiles={usersFiles} />
                     <Checkout setUsersFiles={setUsersFiles} />
                   </Paper>
                 </Grid>) : (null)

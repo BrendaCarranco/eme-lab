@@ -319,7 +319,7 @@ const Admin = (props) => {
 
                                                             <TableCell>{item.user}</TableCell>
                                                             <TableCell>{moment(item.date).format('LLL')}</TableCell>
-                                                            <TableCell>{item.name}</TableCell>
+                                                            <TableCell>{item.extra}</TableCell>
                                                             <TableCell><Link color="inherit" href={item.fileLink} target="_blank" onClick={() => updateStatus(item.id)} >Descargar</Link></TableCell>
                                                             <TableCell>{item.status}</TableCell>
                                                         </TableRow>

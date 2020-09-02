@@ -13,21 +13,16 @@ import { UserContext } from '../../context/UserProvider';
 
 export default function SizeForm() {
 
-
-
-  const { setSize, setCost, paper, material, size } = useContext(UserContext);
+  const { setSize, setCost, paper, material } = useContext(UserContext);
 
   const [filter, setFilter] = useState([]);
   const [mapp, setMapp] = useState([]);
   const [paperName, setPaperName] = useState(paper);
 
-  const [id, setId] = useState('');
+  const [subIndex, setSubIndex] = useState('');
 
 
   const handleChange = (e) => {
-    //setValue(event.target.value);
-    setId(e.target.name);
-    console.log(id);
     setSize(e.target.name);
     setCost(e.target.value);
   };
@@ -56,90 +51,69 @@ export default function SizeForm() {
       <Typography variant="h6" gutterBottom>
         Selecciona el tamaño
       </Typography>
-
       <FormControl component="fieldset">
-
-        <RadioGroup value={size} onChange={(e) => handleChange(e)}>
-
+        <RadioGroup value={subIndex} onChange={(e) => handleChange(e)}>
           <Grid container spacing={3}>
-
             {
-              filter.map(a => (
+              filter.map((a, index) => (
                 <Fragment key={a.name}>
                   {
-                    a.impresion.map(b => (
+                    a.impresion.map((b, subindex) => (
                       <Grid item xs={12} sm={6} key={b.medida}>
                         <Paper elevation={3} key={b.medida}>
                           <Typography align="center" >
-                            {b.medida} - {b.precio} cm
-                            </Typography>
-                          <FormControlLabel value={b.precio} name={b.medida} control={<Radio />} />
+                            {b.medida} cm - ${b.precio} MXN.
+                          </Typography>
+                          <FormControlLabel
+                            value={b.precio}
+                            name={b.medida}
+                            control={<Radio />}
+                            onChange={() => (setSubIndex(b.precio))} />
                         </Paper>
                       </Grid>
                     ))
                   }
 
 
-                    )
-
                 </Fragment>))
             }
 
 
-
           </Grid>
+
+
           <Typography variant="h6" gutterBottom>
             Paquetes de impresiones
       </Typography>
+
           <Grid container spacing={3}>
-            <Grid item xs={12} sm={6}>
-              <Paper elevation={3}>
-                <Typography align="center">
-                  10 impresiones 21.5x14 cm
-            </Typography>
-                <FormControlLabel value="impdcatorce" control={<Radio />} />
-              </Paper>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Paper elevation={3}>
-                <Typography align="center">
-                  10 impresiones 21.5x28 cm
-            </Typography>
-                <FormControlLabel value="impdveinte" control={<Radio />} />
-              </Paper>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Paper elevation={3}>
-                <Typography align="center">
-                  10 impresiones 30x40 cm
-            </Typography>
-                <FormControlLabel value="impdcuarenta" control={<Radio />} />
-              </Paper>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Paper elevation={3}>
-                <Typography align="center">
-                  20 impresiones 21.5x14 cm
-            </Typography>
-                <FormControlLabel value="impvcatorce" control={<Radio />} />
-              </Paper>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Paper elevation={3}>
-                <Typography align="center">
-                  20 impresiones 21.5x28 cm
-            </Typography>
-                <FormControlLabel value="impveinte" control={<Radio />} />
-              </Paper>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Paper elevation={3}>
-                <Typography align="center">
-                  20 impresiones 30x40 cm
-            </Typography>
-                <FormControlLabel value="impvcuarenta" control={<Radio />} />
-              </Paper>
-            </Grid>
+
+
+
+            {
+              filter.map((a, index) => (
+                <Fragment key={a.name}>
+                  {
+                    a.volumen.map((b, subindex) => (
+                      <Grid item xs={12} sm={6} key={b.medida}>
+                        <Paper elevation={3} key={b.medida}>
+                          <Typography align="center" >
+                            {b.medida} cm - ${b.precio} MXN.
+                          </Typography>
+                          <FormControlLabel
+                            value={b.precio}
+                            name={b.medida}
+                            control={<Radio />}
+                            onChange={() => (setSubIndex(b.precio))} />
+                        </Paper>
+                      </Grid>
+                    ))
+                  }
+
+
+                </Fragment>))
+            }
+
           </Grid>
           <Typography variant="h8" gutterBottom>
             *Incluyen caja conservativa
@@ -149,4 +123,5 @@ export default function SizeForm() {
 
     </React.Fragment>
   );
+
 }
