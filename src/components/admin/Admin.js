@@ -34,12 +34,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Link from '@material-ui/core/Link';
 
-import moment from 'moment';
-import 'moment/locale/es';
+
 
 import logoeme from '../../img/logoeme.png';
 import Registro from './Registro';
-import Prices from './Prices';
+import HistorialAdmin from './HistorialAdmin';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -168,48 +167,48 @@ const Admin = (props) => {
         setNewHistory(false);
     };
 
-    useEffect(() => {
-        const fetchUsersFiles = async () => {
-            try {
-
-                const db = firebase.firestore();
-                const usersFilesCollection = await db.collection('files').orderBy('date').get();
-                const arrayData = await usersFilesCollection.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                //console.log(arrayData);
-                setAllCot(arrayData);
-
-            } catch (err) {
-                console.log(err);
-            }
-        };
-        fetchUsersFiles();
-    }, [setAllCot]);
-
-    const updateStatus = async (id) => {
-        try {
-            const db = firebase.firestore();
-            await db.collection('files').doc(id).update({
-                status: 'Revisado'
-            });
-
-            const editedArray = allCot.map(item => (
-                item.id === id ? {
-                    id: item.id,
-                    date: item.date,
-                    email: item.email,
-                    fileLink: item.fileLink,
-                    name: item.name,
-                    status: 'Revisado',
-                    user: item.user
-                } : item
-            ));
-            setAllCot(editedArray);
-
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
+    /*  useEffect(() => {
+         const fetchUsersFiles = async () => {
+             try {
+ 
+                 const db = firebase.firestore();
+                 const usersFilesCollection = await db.collection('files').orderBy('date').get();
+                 const arrayData = await usersFilesCollection.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                 //console.log(arrayData);
+                 setAllCot(arrayData);
+ 
+             } catch (err) {
+                 console.log(err);
+             }
+         };
+         fetchUsersFiles();
+     }, [setAllCot]);
+ 
+     const updateStatus = async (id) => {
+         try {
+             const db = firebase.firestore();
+             await db.collection('files').doc(id).update({
+                 status: 'Revisado'
+             });
+ 
+             const editedArray = allCot.map(item => (
+                 item.id === id ? {
+                     id: item.id,
+                     date: item.date,
+                     email: item.email,
+                     fileLink: item.fileLink,
+                     name: item.name,
+                     status: 'Revisado',
+                     user: item.user
+                 } : item
+             ));
+             setAllCot(editedArray);
+ 
+         } catch (error) {
+             console.log(error);
+         }
+     };
+  */
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
     return (
@@ -301,8 +300,25 @@ const Admin = (props) => {
                         <Grid item xs={12} md={12} lg={12}>
                             <Paper className={fixedHeightPaper}>
                                 {
-                                    cot ? (
-                                        <Table className='black-text'>
+                                    cot ? (<HistorialAdmin />) : (null)
+                                }
+                                {
+                                    register ? (<Registro />) : (null)
+                                }
+                            </Paper>
+                        </Grid>
+                    </Grid>
+                    <Box pt={4}>
+                    </Box>
+                </Container>
+            </main>
+        </div>
+    );
+};
+
+export default withRouter(Admin);
+
+{/* <Table className='black-text'>
                                             <TableHead>
                                                 <TableRow>
                                                     <TableCell>Usuario</TableCell>
@@ -326,21 +342,4 @@ const Admin = (props) => {
                                                     ))
                                                 }
                                             </TableBody>
-                                        </Table>
-                                    ) : (null)
-                                }
-                                {
-                                    register ? (<Registro />) : (null)
-                                }
-                            </Paper>
-                        </Grid>
-                    </Grid>
-                    <Box pt={4}>
-                    </Box>
-                </Container>
-            </main>
-        </div>
-    );
-};
-
-export default withRouter(Admin);
+                                        </Table> */}

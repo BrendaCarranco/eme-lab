@@ -46,18 +46,20 @@ export default function Historial({ setUsersFiles, usersFiles, fbMail }) {
       <Table className='black-text'>
         <TableHead>
           <TableRow>
+            <TableCell>Folio</TableCell>
             <TableCell>Fecha</TableCell>
-            <TableCell>Status</TableCell>
+            <TableCell>Cotización</TableCell>
+            <TableCell>Total</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {
             usersFiles.map(item => (
               <TableRow >
-
-                <TableCell> {moment(item.date).format('LLL')} </TableCell>
-                <TableCell>{item.status}</TableCell>
-
+                <TableCell>{item.folio}</TableCell>
+                <TableCell> {moment(item.date).format('L')} </TableCell>
+                <TableCell>{item.paper}, {item.size}cm</TableCell>
+                <TableCell>${item.total} MXN</TableCell>
               </TableRow>
             ))
           }
