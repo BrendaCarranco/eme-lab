@@ -22,7 +22,7 @@ const Membresias = () => {
             En Eme-Lab pensamos en nuestros clientes.
             </Typography>
            
-            <Grid container spacing={3}>
+            <Grid container spacing={5}>
             <Grid item xs={4}>
             <Paper>
                 <Card>

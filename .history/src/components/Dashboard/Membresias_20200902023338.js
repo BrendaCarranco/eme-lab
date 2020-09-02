@@ -14,7 +14,7 @@ const Membresias = () => {
  
     return (
         <React.Fragment>
-            <Container maxWidth="lg" fixed>
+            <Container maxWidth="sm">
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
             Precios
             </Typography>

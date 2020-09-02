@@ -16,7 +16,7 @@ import 'moment/locale/es';
 
 import { UserContext } from '../../context/UserProvider';
 
-
+const shortid = require('shortid');
 
 
 
@@ -102,7 +102,7 @@ export default function Review({ firebaseUser, setUsersFiles, usersFiles }) {
         email: userProvider.email,
         user: userProvider.displayName,
         status: 'Pendiente',
-       
+        folio: shortid.generate()
       };
       //esta sube la imegen 
       firebase.firestore().collection('files').doc().set(newUserFile);

@@ -23,7 +23,7 @@ const Membresias = () => {
             </Typography>
            
             <Grid container spacing={3}>
-            <Grid item xs={4}>
+            <Grid item xs={12}>
             <Paper>
                 <Card>
                 <CardHeader
@@ -35,7 +35,7 @@ const Membresias = () => {
                 <CardContent>
                   <div>
                     <Typography component="h2" variant="h3" color="textPrimary">
-                      $ 100
+                      $ 500
                     </Typography>
                     <Typography variant="h6" color="textSecondary">
                       /mes

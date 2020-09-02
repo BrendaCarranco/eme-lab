@@ -14,14 +14,14 @@ const Membresias = () => {
  
     return (
         <React.Fragment>
-            <Container maxWidth="lg" fixed>
+            <Container maxWidth="sm">
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
             Precios
             </Typography>
             <Typography variant="h6" align="center" color="textSecondary" component="p">
             En Eme-Lab pensamos en nuestros clientes.
             </Typography>
-           
+            </Container>
             <Grid container spacing={3}>
             <Grid item xs={4}>
             <Paper>
@@ -96,7 +96,7 @@ const Membresias = () => {
             </Paper>
             </Grid>
             </Grid>
-            </Container>
+         
         </React.Fragment>
     )
 }

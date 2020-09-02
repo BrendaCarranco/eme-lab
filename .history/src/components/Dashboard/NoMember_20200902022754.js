@@ -19,14 +19,14 @@ const NoMember = (props) => {
     };
     return (
         <React.Fragment>
-        <Container maxWidth="lg">
-        <Typography component="h3" variant="h4" align="center" color="textPrimary" gutterBottom>
-          Precios
+        <Container maxWidth="xs">
+        <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+        Precios
         </Typography>
         <Typography variant="h6" align="center" color="textSecondary" component="p">
         En Eme-Lab pensamos en nuestros clientes.
         </Typography>
-        
+        </Container>
         <Grid container spacing={3}>
         <Grid item xs={4}>
         <Paper>
@@ -101,7 +101,6 @@ const NoMember = (props) => {
         </Paper>
         </Grid>
         </Grid>
-        </Container>
      
     </React.Fragment>
     );

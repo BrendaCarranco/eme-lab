@@ -20,8 +20,8 @@ const NoMember = (props) => {
     return (
         <React.Fragment>
         <Container maxWidth="lg">
-        <Typography component="h3" variant="h4" align="center" color="textPrimary" gutterBottom>
-          Precios
+        <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+        Precios
         </Typography>
         <Typography variant="h6" align="center" color="textSecondary" component="p">
         En Eme-Lab pensamos en nuestros clientes.
