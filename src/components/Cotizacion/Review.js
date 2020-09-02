@@ -14,8 +14,9 @@ import { firebase } from '../../firebase';
 import moment from 'moment';
 import 'moment/locale/es';
 
-
 import { UserContext } from '../../context/UserProvider';
+
+const shortid = require('shortid');
 
 
 
@@ -67,10 +68,9 @@ export default function Review({ firebaseUser, setUsersFiles, usersFiles }) {
 
   }, [setPrecio]);
 
-  console.log(userProvider);
-
   let time = Date.now();
   let timeFormat = moment(time).format('LLL');
+
 
   const handleChangeFile = async e => {
     const file = e.target.files[0];
@@ -84,30 +84,33 @@ export default function Review({ firebaseUser, setUsersFiles, usersFiles }) {
 
   const handleSubmit = e => {
     e.preventDefault();
-    setEnd(true);
-    //console.log('submit');
 
-    /*    const username = e.target.username.value;
-       setInput(username);
-       if (!username) {
-         return;
-       } */
+    if (fileUrl === null) {
+      alert('Cargando archivo...');
+      return;
+    } else {
 
-    const newUserFile = {
-      //name: username,
-      fileLink: fileUrl,
-      date: time,
-      dateFormat: timeFormat,
-      email: userProvider.email,
-      user: userProvider.displayName,
-      extra: input,
-      status: 'Pendiente'
-    };
-    //esta sube la imegen 
-    firebase.firestore().collection('files').doc().set(newUserFile);
-    setInput('');
-    setFileUrl('');
-    return alert('archivo subido');
+      const newUserFile = {
+        //name: username,
+        fileLink: fileUrl,
+        extra: input,
+        paper: fullPaperName,
+        size: size,
+        total: cost,
+        date: time,
+        dateFormat: timeFormat,
+        email: userProvider.email,
+        user: userProvider.displayName,
+        status: 'Pendiente',
+        folio: shortid.generate()
+      };
+      //esta sube la imegen 
+      firebase.firestore().collection('files').doc().set(newUserFile);
+      setInput('');
+      setFileUrl('');
+      setEnd(true);
+      return alert('archivo subido');
+    }
   };
 
   return (
