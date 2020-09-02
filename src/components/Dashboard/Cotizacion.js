@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { firebase } from '../../firebase';
-import moment from 'moment';
-import 'moment/locale/es';
+
 
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
@@ -24,8 +23,7 @@ const Cotizacion = ({ firebaseUser, setUsersFiles, usersFiles }) => {
   const [input, setInput] = useState('');
   //const [usersFiles, setUsersFiles] = useState([]);
 
-  let time = Date.now();
-  let timeFormat = moment(time).format('LLL');
+  let currentTime = Date.now();
 
   const handleChangeFile = async e => {
     const file = e.target.files[0];
@@ -43,26 +41,30 @@ const Cotizacion = ({ firebaseUser, setUsersFiles, usersFiles }) => {
     setInput(username);
     if (!username) {
       return;
+    } if (fileUrl === null) {
+      alert('carga un archivo');
+      return;
+    } else {
+
+      const newUserFile = {
+        name: username,
+        fileLink: fileUrl,
+        date: currentTime,
+        email: firebaseUser.email,
+        user: firebaseUser.displayName,
+        status: 'Pendiente'
+      };
+      //esta sube la imegen 
+      firebase.firestore().collection('files').doc().set(newUserFile);
+      setUsersFiles([
+        ...usersFiles,
+        { ...newUserFile }
+
+      ]);
+      setInput('');
+      setFileUrl('');
+      return alert('archivo subido');
     }
-
-    const newUserFile = {
-      name: username,
-      fileLink: fileUrl,
-      date: timeFormat,
-      email: firebaseUser.email,
-      user: firebaseUser.displayName,
-      status: 'Pendiente'
-    };
-    //esta sube la imegen 
-    firebase.firestore().collection('files').doc().set(newUserFile);
-    setUsersFiles([
-      ...usersFiles,
-      { ...newUserFile }
-
-    ]);
-    setInput('');
-    setFileUrl('');
-    return alert('archivo subido');
   };
 
   /*   const emailUpdate = async () => {

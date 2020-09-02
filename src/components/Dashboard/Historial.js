@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { firebase } from '../../firebase';
+
+import moment from 'moment';
+import 'moment/locale/es';
+
 import Title from './Title';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -27,6 +31,7 @@ export default function Historial({ setUsersFiles, usersFiles, fbMail }) {
         .firestore()
         .collection('files')
         .where("email", "==", fbMail)
+        .orderBy("date")
         .get();
       setUsersFiles(usersFilesCollection.docs.map(doc => {
         return doc.data();
@@ -43,15 +48,18 @@ export default function Historial({ setUsersFiles, usersFiles, fbMail }) {
           <TableRow>
             <TableCell>Nombre</TableCell>
             <TableCell>Fecha</TableCell>
+            <TableCell>Status</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {
             usersFiles.map(item => (
-              <TableRow key={item.id}>
+              <TableRow >
 
-                <TableCell>{item.name}</TableCell>
-                <TableCell>{item.date}</TableCell>
+                <TableCell key={item.id}>{item.name}</TableCell>
+                <TableCell> {moment(item.date).format('LLL')} </TableCell>
+                <TableCell>{item.status}</TableCell>
+
               </TableRow>
             ))
           }

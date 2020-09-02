@@ -16,7 +16,8 @@ const UserProvider = (props) => {
     const [paper, setPaper] = useState('')
     const [size, setSize] = useState('')
 
-
+    const [paper, setPaper] = useState('');
+    const [size, setSize] = useState('');
     const [cost, setCost] = useState('');
 
     const [material, setMaterial] = useState([]);

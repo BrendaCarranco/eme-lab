@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import logoeme from '../../img/logoeme.png';
 import Modal from 'react-modal';
 
+
 import Button from '@material-ui/core/Button';
 import CardMedia from '@material-ui/core/CardMedia';
 import Link from '@material-ui/core/Link';
@@ -135,7 +136,7 @@ const ModalRegister = ({ setLoginForm }) => {
                     Registarme
                             </Button>
                 <Grid item xs>
-                    <Link href="#" variant="body2" color="inherit" onClick={() => setLoginForm(true)} >
+                    <Link variant="body2" color="inherit" onClick={() => setLoginForm(true)} >
                         Ya tengo una cuenta
                     </Link>
                 </Grid>

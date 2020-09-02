@@ -34,13 +34,12 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Link from '@material-ui/core/Link';
 
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
+import moment from 'moment';
+import 'moment/locale/es';
 
 import logoeme from '../../img/logoeme.png';
 import Registro from './Registro';
+import Prices from './Prices';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -171,25 +170,45 @@ const Admin = (props) => {
 
     useEffect(() => {
         const fetchUsersFiles = async () => {
-            const usersFilesCollection = await firebase
-                .firestore()
-                .collection('files')
-                .get();
-            setAllCot(usersFilesCollection.docs.map(doc => {
-                return doc.data();
-            }));
+            try {
+
+                const db = firebase.firestore();
+                const usersFilesCollection = await db.collection('files').orderBy('date').get();
+                const arrayData = await usersFilesCollection.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                //console.log(arrayData);
+                setAllCot(arrayData);
+
+            } catch (err) {
+                console.log(err);
+            }
         };
         fetchUsersFiles();
     }, [setAllCot]);
 
-    //console.log(allCot);
+    const updateStatus = async (id) => {
+        try {
+            const db = firebase.firestore();
+            await db.collection('files').doc(id).update({
+                status: 'Revisado'
+            });
 
-    const [status, setStatus] = React.useState("");
+            const editedArray = allCot.map(item => (
+                item.id === id ? {
+                    id: item.id,
+                    date: item.date,
+                    email: item.email,
+                    fileLink: item.fileLink,
+                    name: item.name,
+                    status: 'Revisado',
+                    user: item.user
+                } : item
+            ));
+            setAllCot(editedArray);
 
-    const handleChange = (event) => {
-        setStatus(event.target.value);
+        } catch (error) {
+            console.log(error);
+        }
     };
-
 
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
@@ -250,7 +269,6 @@ const Admin = (props) => {
                     </ListItem>
                 </List>
                 <Divider />
-
                 <ListItem button onClick={handleCot} >
                     <ListItemIcon>
                         <DashboardIcon />
@@ -300,25 +318,10 @@ const Admin = (props) => {
                                                         <TableRow key={item.id}>
 
                                                             <TableCell>{item.user}</TableCell>
-                                                            <TableCell>{item.date}</TableCell>
+                                                            <TableCell>{moment(item.date).format('LLL')}</TableCell>
                                                             <TableCell>{item.name}</TableCell>
-                                                            <TableCell><Link color="inherit" href={item.fileLink} >Descargar</Link></TableCell>
-                                                            <TableCell> <FormControl variant="outlined" className={classes.formControl}>
-                                                                <InputLabel id="demo-simple-select-outlined-label">Status</InputLabel>
-                                                                <Select
-                                                                    labelId="demo-simple-select-outlined-label"
-                                                                    id="demo-simple-select-outlined"
-                                                                    value={item.status}
-                                                                    onChange={handleChange}
-                                                                //label="status"
-                                                                >
-                                                                    <MenuItem value="">
-                                                                        <em>None</em>
-                                                                    </MenuItem>
-                                                                    <MenuItem value={'Pendiente'}>Pendiente</MenuItem>
-                                                                    <MenuItem value={'Finalizado'}>Finalizado</MenuItem>
-                                                                </Select>
-                                                            </FormControl></TableCell>
+                                                            <TableCell><Link color="inherit" href={item.fileLink} target="_blank" onClick={() => updateStatus(item.id)} >Descargar</Link></TableCell>
+                                                            <TableCell>{item.status}</TableCell>
                                                         </TableRow>
                                                     ))
                                                 }

@@ -37,7 +37,7 @@ import Membresias from './Membresias.js';
 import Checkout from '../Cotizacion/Checkout.js';
 
 import { UserContext } from '../../context/UserProvider';
-
+import Checkout from '../Cotizacion/Checkout';
 
 function Copyright() {
   return (
