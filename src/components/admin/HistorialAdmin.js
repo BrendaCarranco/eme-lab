@@ -68,7 +68,6 @@ const HistorialAdmin = () => {
     };
     return (
         <div>
-
             <div class="clearfix"></div>
             <br /><br />
             <div>
