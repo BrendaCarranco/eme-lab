@@ -22,12 +22,12 @@ function App() {
 
   const { userProvider } = useContext(UserContext);
 
-  console.log(userProvider, 'akaaaa');
+  console.log(userProvider);
 
   //Observador
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
-      console.log(user);
+      //console.log(user);
       if (user) {
         setFbName(user.displayName);
         setFbMail(user.email);

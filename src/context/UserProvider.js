@@ -17,7 +17,12 @@ const UserProvider = (props) => {
     const [paper, setPaper] = useState('');
     const [size, setSize] = useState('');
     const [cost, setCost] = useState('');
+    const [add, setAdd] = useState(false);
     const [fullPaperName, setFullPaperName] = useState('');
+
+    const [finalOrder, setFinalOrder] = useState([]);
+
+    const [order, setOrder] = useState({});
 
     const [material, setMaterial] = useState([]);
 
@@ -88,7 +93,7 @@ const UserProvider = (props) => {
         fetchMaterial();
     }, [setMaterial]);
 
-    console.log(material);
+    //console.log(material);
 
 
 
@@ -118,7 +123,11 @@ const UserProvider = (props) => {
     };
 
     return (
-        <UserContext.Provider value={{ userProvider, userRegister, setPaper, material, paper, setSize, cost, setCost, fullPaperName, setFullPaperName, size }} >
+        <UserContext.Provider value={{
+            userProvider, userRegister,
+            setPaper, material, paper, setSize, cost, setCost, fullPaperName,
+            setFullPaperName, size, order, setOrder, setFinalOrder, finalOrder, add, setAdd
+        }} >
             {props.children}
         </UserContext.Provider>
     );

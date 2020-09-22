@@ -4,6 +4,8 @@ import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -35,37 +37,40 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Review({ firebaseUser, setUsersFiles, usersFiles }) {
+export default function Review() {
 
   const classes = useStyles();
 
   const [fileUrl, setFileUrl] = useState(null);
   const [input, setInput] = useState('');
+  const [cant, setCant] = useState(1);
   //const [usersFiles, setUsersFiles] = useState([]);
 
   //Lectura de formularios
 
-  const { paper, fullPaperName, size, cost, userProvider } = useContext(UserContext);
+  const { paper, fullPaperName, size, cost, userProvider, order, setOrder, finalOrder, add, setFinalOrder } = useContext(UserContext);
 
   //Lectura de precios
 
-  const [precio, setPrecio] = useState([]);
+  //const [precio, setPrecio] = useState([]);
 
   const [end, setEnd] = useState(false);
 
-  useEffect(() => {
-    const fetchGetPrecios = async () => {
-      const getPreciosCollection = await firebase
-        .firestore()
-        .collection('precios')
-        .get();
-      setPrecio(getPreciosCollection.docs.map(doc => {
-        return doc.data();
-      }));
-    };
-    fetchGetPrecios();
 
-  }, [setPrecio]);
+  //maybe hay que borrarrrrrrrrrrlo :)
+  /*   useEffect(() => {
+      const fetchGetPrecios = async () => {
+        const getPreciosCollection = await firebase
+          .firestore()
+          .collection('precios')
+          .get();
+        setPrecio(getPreciosCollection.docs.map(doc => {
+          return doc.data();
+        }));
+      };
+      fetchGetPrecios();
+  
+    }, [setPrecio]); */
 
   let time = Date.now();
   let timeFormat = moment(time).format('LLL');
@@ -78,6 +83,16 @@ export default function Review({ firebaseUser, setUsersFiles, usersFiles }) {
     console.log(file);
     await fileRef.put(file);
     setFileUrl(await fileRef.getDownloadURL());
+    /*     setOrder({
+          ...order, file: await fileRef.getDownloadURL(), folio: shortid.generate()
+        }); */
+
+    //setFinalOrder([...finalOrder, { file: await fileRef.getDownloadURL(), folio: shortid.generate() }]);
+
+    setFinalOrder([
+      ...finalOrder, { ...order, file: await fileRef.getDownloadURL(), quantity: cant, total: order.price * cant }]
+    );
+
   };
 
 
@@ -91,10 +106,11 @@ export default function Review({ firebaseUser, setUsersFiles, usersFiles }) {
 
       const newUserFile = {
         //name: username,
-        fileLink: fileUrl,
+        //fileLink: fileUrl,
         extra: input,
-        paper: fullPaperName,
-        size: size,
+        //paper: fullPaperName,
+        //size: size,
+        order: finalOrder,
         total: cost,
         date: time,
         dateFormat: timeFormat,
@@ -114,10 +130,11 @@ export default function Review({ firebaseUser, setUsersFiles, usersFiles }) {
 
   return (
 
-
-
-
     <React.Fragment>
+
+
+
+
       {
         end ? (
           <React.Fragment>
@@ -131,28 +148,123 @@ export default function Review({ firebaseUser, setUsersFiles, usersFiles }) {
         ) : (
 
             <Fragment>
-              <Typography variant="h6" gutterBottom>
-                Papel
-      </Typography>
 
-              <Typography variant="body2">
-                {fullPaperName}
-              </Typography>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <Typography variant="h6" gutterBottom className={classes.title}>
-                    Tamaño
+              {
+                add === false ? (<div>
+                  <Typography variant="h6" gutterBottom>
+                    Papel
           </Typography>
-                  <Typography gutterBottom>
-                    {size} cm
+                  <Typography variant="body2">
+                    {order.paper}
+                  </Typography>
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="h6" gutterBottom className={classes.title}>
+                      Tamaño
           </Typography>
-                  <Typography variant="h6" gutterBottom className={classes.title}>
-                    Costo
+                    <Typography gutterBottom>
+                      {order.size} cm
           </Typography>
-                  <List disablePadding>
-                    ${cost} MXN.
+                    <Typography variant="h6" gutterBottom className={classes.title}>
+                      Cantidad
+          </Typography>
+                    <Typography gutterBottom>
+                      <RemoveIcon onClick={() => setCant(cant - 1)} /> {cant} pzs. <AddIcon onClick={() => setCant(cant + 1)} />
+                    </Typography>
+                    <Typography variant="h6" gutterBottom className={classes.title}>
+                      Costo
+          </Typography>
+                    <List disablePadding>
+                      ${order.price} MXN.
           </List>
-                </Grid>
+                    <Typography variant="h6" gutterBottom className={classes.title}>
+                      Total
+          </Typography>
+                    <List disablePadding>
+                      ${order.price * cant} MXN.
+          </List>
+                  </Grid>
+
+                </div>) : (<div>
+                  <Typography variant="h6" gutterBottom>
+                    Papel
+</Typography>
+                  <Typography variant="body2">
+                    {order.paper}
+                  </Typography>
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="h6" gutterBottom className={classes.title}>
+                      Tamaño
+</Typography>
+                    <Typography gutterBottom>
+                      {order.size} cm
+</Typography>
+                    <Typography variant="h6" gutterBottom className={classes.title}>
+                      Cantidad
+</Typography>
+                    <Typography gutterBottom>
+                      <RemoveIcon onClick={() => setCant(cant - 1)} /> {cant} pzs. <AddIcon onClick={() => setCant(cant + 1)} />
+                    </Typography>
+                    <Typography variant="h6" gutterBottom className={classes.title}>
+                      Costo
+</Typography>
+                    <List disablePadding>
+                      ${order.price} MXN.
+</List>
+                    <Typography variant="h6" gutterBottom className={classes.title}>
+                      Total
+</Typography>
+                    <List disablePadding>
+                      ${order.price * cant} MXN.
+</List>
+                  </Grid>
+                  <Typography variant="h6" gutterBottom>
+                    Orden Final
+          </Typography>
+                  {
+                    finalOrder.map(item => (
+                      /* console.log(item) */
+                      <div>
+                        <Typography variant="h6" gutterBottom>
+                          Papel
+          </Typography>
+                        <Typography variant="body2">
+                          {item.paper}
+                        </Typography>
+                        <Grid item xs={12} sm={6}>
+                          <Typography variant="h6" gutterBottom className={classes.title}>
+                            Tamaño
+          </Typography>
+                          <Typography gutterBottom>
+                            {item.size} cm
+          </Typography>
+                          <Typography variant="h6" gutterBottom className={classes.title}>
+                            Cantidad
+          </Typography>
+                          <Typography gutterBottom>
+                            {item.quantity}
+                          </Typography>
+                          <Typography variant="h6" gutterBottom className={classes.title}>
+                            Costo
+          </Typography>
+                          <List disablePadding>
+                            ${order.price} MXN.
+          </List>
+                          <Typography variant="h6" gutterBottom className={classes.title}>
+                            Total
+          </Typography>
+                          <List disablePadding>
+                            ${item.total} MXN.
+          </List>
+                        </Grid>
+                      </div>
+                    ))
+                  }
+                </div>)
+              }
+
+
+              <Grid item xs={12} sm={6}>
+
                 <form onSubmit={handleSubmit}>
                   <TextField
                     variant="outlined"

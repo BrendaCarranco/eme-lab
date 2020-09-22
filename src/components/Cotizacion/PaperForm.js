@@ -14,7 +14,7 @@ import Paper from '@material-ui/core/Paper';
 
 export default function PaperForm() {
 
-  const { paper, setPaper, setFullPaperName } = useContext(UserContext);
+  const { paper, setPaper, setFullPaperName, setOrder, order } = useContext(UserContext);
 
   ///const [value, setValue] = useState('')
 
@@ -22,6 +22,7 @@ export default function PaperForm() {
   const handleChange = (e) => {
     //setValue(event.target.value);
     setPaper(e.target.value);
+    setOrder({ ...order, paper: e.target.name });
     setFullPaperName(e.target.name);
   };
 

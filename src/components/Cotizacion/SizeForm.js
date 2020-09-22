@@ -13,7 +13,7 @@ import { UserContext } from '../../context/UserProvider';
 
 export default function SizeForm() {
 
-  const { setSize, setCost, paper, material } = useContext(UserContext);
+  const { setSize, setCost, paper, material, order, setOrder, setFinalOrder, finalOrder } = useContext(UserContext);
 
   const [filter, setFilter] = useState([]);
   const [mapp, setMapp] = useState([]);
@@ -25,6 +25,9 @@ export default function SizeForm() {
   const handleChange = (e) => {
     setSize(e.target.name);
     setCost(e.target.value);
+    setOrder({ ...order, size: e.target.name, price: e.target.value });
+
+
   };
   useEffect(() => {
     filterData();

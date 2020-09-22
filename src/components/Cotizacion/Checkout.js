@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -13,6 +13,9 @@ import Typography from '@material-ui/core/Typography';
 import PaperForm from './PaperForm';
 import SizeForm from './SizeForm';
 import Review from './Review';
+
+import { UserContext } from '../../context/UserProvider';
+
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -55,7 +58,6 @@ const steps = ['Selecciona un papel', 'Selecciona el tamaño', 'Revisa tu orden'
 
 function getStepContent(step) {
 
-
   switch (step) {
     case 0:
       return <PaperForm />;
@@ -72,12 +74,31 @@ export default function Checkout() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
 
+  const { setFinalOrder, order, finalOrder, setOrder, setAdd } = useContext(UserContext);
+
   const handleNext = () => {
     setActiveStep(activeStep + 1);
   };
 
   const handleBack = () => {
     setActiveStep(activeStep - 1);
+  };
+
+  const addOrder = () => {
+    setActiveStep(0);
+    /*     setFinalOrder([
+          ...finalOrder, { order }]
+        ); */
+    setAdd(true);
+    setOrder({});
+    /*   setFinalOrder([
+        ...finalOrder, { order }]
+      );
+      setOrder({}); */
+
+
+    //finalOrder.map((item) => item.folio === order.folio ? { ...item, quantity: 1 } : item);
+
   };
 
   return (
@@ -124,6 +145,9 @@ export default function Checkout() {
                         </Button>
                       )
                     }
+                    <Button onClick={() => addOrder()} className={classes.button}>
+                      Añadir orden
+                      </Button>
                   </div>
                 </React.Fragment>
               )}
