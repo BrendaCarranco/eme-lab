@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { firebase } from '../../firebase';
 import { withRouter } from 'react-router-dom';
 import logoeme from '../../img/logoeme.png';
-import Modal from 'react-modal';
+
 import ModalPass from './ModalPass';
 
 import Button from '@material-ui/core/Button';
@@ -19,6 +19,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import ModalRegister from './ModalRegister';
+import { Modal } from '@material-ui/core';
 
 function Copyright() {
   return (
@@ -55,16 +56,22 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+  },
+  paperModal: {
+
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+
+    margin: theme.spacing(8, 4),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
 }));
 
@@ -73,8 +80,17 @@ const SignInSide = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState('');
-  const [modalPass, setModalPass] = useState(false);
   const [loginForm, setLoginForm] = useState(true);
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -105,6 +121,12 @@ const SignInSide = (props) => {
 
   }, [email, password]);
 
+
+  const body = (
+    <div className={classes.paper} className={classes.paperModal}>
+      <ModalPass />
+    </div>
+  );
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -162,23 +184,25 @@ const SignInSide = (props) => {
                     </Link>
                   </Grid>
                   <Grid item>
-
-
-
-
-                    <Link href="#" variant="body2" color="inherit" onClick={() => setModalPass(true)} >
-                      ¿Olvidaste tu contraseña?
-                          {
-                        modalPass ? (<ModalPass setModalPass={setModalPass} />) : (null)
-                      }
-                    </Link>
                   </Grid>
                 </Grid>
 
               </form>) : (<ModalRegister setLoginForm={setLoginForm} />)
 
           }
-
+          <div>
+            <Grid item>
+              <Link variant="body2" color="inherit" onClick={handleOpen}>¿Olvidaste tu contraseña?</Link>
+            </Grid>
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="simple-modal-title"
+              aria-describedby="simple-modal-description"
+            >
+              {body}
+            </Modal>
+          </div>
           <Box mt={5}>
             <Copyright />
           </Box>

@@ -10,20 +10,11 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Link from '@material-ui/core/Link';
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
-import Collapse from '@material-ui/core/Collapse';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import IconButton from '@material-ui/core/IconButton';
 
 
 const HistorialAdmin = () => {
 
-    const [allCot, setAllCot] = useState([]); //
-    const [open, setOpen] = React.useState(false);
-
-
+    const [allCot, setAllCot] = useState([]);
 
     useEffect(() => {
         const fetchUsersFiles = async () => {
@@ -51,13 +42,14 @@ const HistorialAdmin = () => {
 
             const editedArray = allCot.map(item => (
                 item.id === id ? {
-                    id: item.id,
+                    order: item.order,
+                    finalTotal: item.finalTotal,
                     date: item.date,
+                    dateFormat: item.dateFormat,
                     email: item.email,
-                    fileLink: item.fileLink,
-                    name: item.name,
+                    user: item.user,
                     status: 'Revisado',
-                    user: item.user
+                    folio: item.folio
                 } : item
             ));
             setAllCot(editedArray);
@@ -79,6 +71,8 @@ const HistorialAdmin = () => {
                                 <TableCell>Folio</TableCell>
                                 <TableCell>Nombre</TableCell>
                                 <TableCell>Status</TableCell>
+                                <TableCell>Fecha</TableCell>
+                                <TableCell>Total</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -89,25 +83,38 @@ const HistorialAdmin = () => {
                                             <TableCell>{cot.folio} </TableCell>
                                             <TableCell>{cot.user}</TableCell>
                                             <TableCell>{cot.status}</TableCell>
+                                            <TableCell> {moment(cot.date).format('L')}</TableCell>
+                                            <TableCell>$ {cot.finalTotal} MXN</TableCell>
                                         </TableRow>
 
                                         <TableRow class={`collapse table${index}`}>
                                             <TableCell colspan="999">
                                                 <div>
+
+
                                                     <Table class="table table-striped">
                                                         <TableHead>
                                                             <TableRow>
-                                                                <TableCell>Link</TableCell>
-                                                                <TableCell>Extra</TableCell>
+                                                                <TableCell>Papel</TableCell>
+                                                                <TableCell>Tamaño</TableCell>
+                                                                <TableCell>Cantidad</TableCell>
+                                                                <TableCell>Archivo</TableCell>
                                                             </TableRow>
                                                         </TableHead>
-                                                        <TableBody>
-                                                            <TableRow>
-                                                                <TableCell><Link color="inherit" href={cot.fileLink} target="_blank" onClick={() => updateStatus(cot.id)} >Descargar</Link></TableCell>
-                                                                <TableCell>{cot.extra}</TableCell>
-                                                            </TableRow>
-                                                        </TableBody>
+                                                        {
+                                                            cot.order.map(order => (
+                                                                <TableBody>
+                                                                    <TableRow>
+                                                                        <TableCell>{order.paper}</TableCell>
+                                                                        <TableCell>{order.size}</TableCell>
+                                                                        <TableCell>{order.quantity}</TableCell>
+                                                                        <TableCell><Link color="inherit" href={order.file} target="_blank" onClick={() => updateStatus(cot.id)}>Descargar</Link></TableCell>
+                                                                    </TableRow>
+                                                                </TableBody>
+                                                            ))
+                                                        }
                                                     </Table>
+
                                                 </div>
                                             </TableCell>
                                         </TableRow>
@@ -120,15 +127,6 @@ const HistorialAdmin = () => {
                     </Table>
                 </div>
             </div>
-
-
-
-
-
-
-
-
-
         </div>
     );
 };

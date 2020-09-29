@@ -1,16 +1,12 @@
-import React, { useEffect, useState, useContext, Fragment } from 'react';
+import React, { useState, useContext, Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import FileCopyIcon from '@material-ui/icons/FileCopy';
 
 import { firebase } from '../../firebase';
 import moment from 'moment';
@@ -19,8 +15,6 @@ import 'moment/locale/es';
 import { UserContext } from '../../context/UserProvider';
 
 const shortid = require('shortid');
-
-
 
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -42,35 +36,13 @@ export default function Review() {
   const classes = useStyles();
 
   const [fileUrl, setFileUrl] = useState(null);
-  const [input, setInput] = useState('');
-  const [cant, setCant] = useState(1);
-  //const [usersFiles, setUsersFiles] = useState([]);
-
-  //Lectura de formularios
-
-  const { paper, fullPaperName, size, cost, userProvider, order, setOrder, finalOrder, add, setFinalOrder } = useContext(UserContext);
-
-  //Lectura de precios
-
-  //const [precio, setPrecio] = useState([]);
-
+  const [itemQuantity, setItemQuantity] = useState(1);
   const [end, setEnd] = useState(false);
 
+  //Lectura de formularios
+  const { userProvider, order, finalOrder, add, setFinalOrder } = useContext(UserContext);
 
-  //maybe hay que borrarrrrrrrrrrlo :)
-  /*   useEffect(() => {
-      const fetchGetPrecios = async () => {
-        const getPreciosCollection = await firebase
-          .firestore()
-          .collection('precios')
-          .get();
-        setPrecio(getPreciosCollection.docs.map(doc => {
-          return doc.data();
-        }));
-      };
-      fetchGetPrecios();
-  
-    }, [setPrecio]); */
+
 
   let time = Date.now();
   let timeFormat = moment(time).format('LLL');
@@ -83,21 +55,17 @@ export default function Review() {
     console.log(file);
     await fileRef.put(file);
     setFileUrl(await fileRef.getDownloadURL());
-    /*     setOrder({
-          ...order, file: await fileRef.getDownloadURL(), folio: shortid.generate()
-        }); */
-
-    //setFinalOrder([...finalOrder, { file: await fileRef.getDownloadURL(), folio: shortid.generate() }]);
-
     setFinalOrder([
-      ...finalOrder, { ...order, file: await fileRef.getDownloadURL(), quantity: cant, total: order.price * cant }]
+      ...finalOrder, { ...order, file: await fileRef.getDownloadURL(), quantity: itemQuantity, total: order.price * itemQuantity }]
     );
-
   };
-
 
   const handleSubmit = e => {
     e.preventDefault();
+
+
+    let sumTotal = finalOrder.reduce((sum, { total }) => sum + total, 0); //aqui está el total
+    console.log(sumTotal, 'redus');
 
     if (fileUrl === null) {
       alert('Cargando archivo...');
@@ -105,13 +73,8 @@ export default function Review() {
     } else {
 
       const newUserFile = {
-        //name: username,
-        //fileLink: fileUrl,
-        extra: input,
-        //paper: fullPaperName,
-        //size: size,
         order: finalOrder,
-        total: cost,
+        finalTotal: sumTotal,
         date: time,
         dateFormat: timeFormat,
         email: userProvider.email,
@@ -121,20 +84,15 @@ export default function Review() {
       };
       //esta sube la imegen 
       firebase.firestore().collection('files').doc().set(newUserFile);
-      setInput('');
       setFileUrl('');
       setEnd(true);
-      return alert('archivo subido');
+      //return alert('archivo subido');
     }
   };
 
   return (
 
     <React.Fragment>
-
-
-
-
       {
         end ? (
           <React.Fragment>
@@ -168,7 +126,7 @@ export default function Review() {
                       Cantidad
           </Typography>
                     <Typography gutterBottom>
-                      <RemoveIcon onClick={() => setCant(cant - 1)} /> {cant} pzs. <AddIcon onClick={() => setCant(cant + 1)} />
+                      <RemoveIcon onClick={() => setItemQuantity(itemQuantity - 1)} /> {itemQuantity} pzs. <AddIcon onClick={() => setItemQuantity(itemQuantity + 1)} />
                     </Typography>
                     <Typography variant="h6" gutterBottom className={classes.title}>
                       Costo
@@ -180,7 +138,7 @@ export default function Review() {
                       Total
           </Typography>
                     <List disablePadding>
-                      ${order.price * cant} MXN.
+                      ${order.price * itemQuantity} MXN.
           </List>
                   </Grid>
 
@@ -202,7 +160,7 @@ export default function Review() {
                       Cantidad
 </Typography>
                     <Typography gutterBottom>
-                      <RemoveIcon onClick={() => setCant(cant - 1)} /> {cant} pzs. <AddIcon onClick={() => setCant(cant + 1)} />
+                      <RemoveIcon onClick={() => setItemQuantity(itemQuantity - 1)} /> {itemQuantity} pzs. <AddIcon onClick={() => setItemQuantity(itemQuantity + 1)} />
                     </Typography>
                     <Typography variant="h6" gutterBottom className={classes.title}>
                       Costo
@@ -214,7 +172,7 @@ export default function Review() {
                       Total
 </Typography>
                     <List disablePadding>
-                      ${order.price * cant} MXN.
+                      ${order.price * itemQuantity} MXN.
 </List>
                   </Grid>
                   <Typography variant="h6" gutterBottom>
@@ -259,6 +217,7 @@ export default function Review() {
                       </div>
                     ))
                   }
+
                 </div>)
               }
 
@@ -266,16 +225,6 @@ export default function Review() {
               <Grid item xs={12} sm={6}>
 
                 <form onSubmit={handleSubmit}>
-                  <TextField
-                    variant="outlined"
-                    margin="normal"
-                    fullWidth
-                    id="outlined-basic"
-                    label="Datos extra"
-                    name='extra'
-                    onChange={e => setInput(e.target.value)}
-                    value={input}
-                  />
                   <TextField
                     variant="outlined"
                     margin="normal"

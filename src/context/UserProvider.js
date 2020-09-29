@@ -19,11 +19,8 @@ const UserProvider = (props) => {
     const [cost, setCost] = useState('');
     const [add, setAdd] = useState(false);
     const [fullPaperName, setFullPaperName] = useState('');
-
     const [finalOrder, setFinalOrder] = useState([]);
-
     const [order, setOrder] = useState({});
-
     const [material, setMaterial] = useState([]);
 
 

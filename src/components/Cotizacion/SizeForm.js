@@ -13,7 +13,7 @@ import { UserContext } from '../../context/UserProvider';
 
 export default function SizeForm() {
 
-  const { setSize, setCost, paper, material, order, setOrder, setFinalOrder, finalOrder } = useContext(UserContext);
+  const { setSize, setCost, paper, material, order, setOrder } = useContext(UserContext);
 
   const [filter, setFilter] = useState([]);
   const [mapp, setMapp] = useState([]);
@@ -43,9 +43,6 @@ export default function SizeForm() {
       console.log(err);
     }
   };
-
-
-
   console.log(mapp);
 
   return (
@@ -76,23 +73,13 @@ export default function SizeForm() {
                       </Grid>
                     ))
                   }
-
-
                 </Fragment>))
             }
-
-
           </Grid>
-
-
           <Typography variant="h6" gutterBottom>
             Paquetes de impresiones
       </Typography>
-
           <Grid container spacing={3}>
-
-
-
             {
               filter.map((a, index) => (
                 <Fragment key={a.name}>
@@ -112,8 +99,6 @@ export default function SizeForm() {
                       </Grid>
                     ))
                   }
-
-
                 </Fragment>))
             }
 

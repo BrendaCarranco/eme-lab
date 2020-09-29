@@ -11,9 +11,6 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-function preventDefault(event) {
-  event.preventDefault();
-}
 
 const useStyles = makeStyles((theme) => ({
   seeMore: {
@@ -48,7 +45,6 @@ export default function Historial({ setUsersFiles, usersFiles, fbMail }) {
           <TableRow>
             <TableCell>Folio</TableCell>
             <TableCell>Fecha</TableCell>
-            <TableCell>Cotización</TableCell>
             <TableCell>Total</TableCell>
           </TableRow>
         </TableHead>
@@ -58,8 +54,7 @@ export default function Historial({ setUsersFiles, usersFiles, fbMail }) {
               <TableRow >
                 <TableCell>{item.folio}</TableCell>
                 <TableCell> {moment(item.date).format('L')} </TableCell>
-                <TableCell>{item.paper}, {item.size}cm</TableCell>
-                <TableCell>${item.total} MXN</TableCell>
+                <TableCell>$ {item.finalTotal} MXN</TableCell>
               </TableRow>
             ))
           }

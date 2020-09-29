@@ -74,7 +74,7 @@ export default function Checkout() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
 
-  const { setFinalOrder, order, finalOrder, setOrder, setAdd } = useContext(UserContext);
+  const { order, finalOrder, setOrder, setAdd } = useContext(UserContext);
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -86,18 +86,8 @@ export default function Checkout() {
 
   const addOrder = () => {
     setActiveStep(0);
-    /*     setFinalOrder([
-          ...finalOrder, { order }]
-        ); */
     setAdd(true);
     setOrder({});
-    /*   setFinalOrder([
-        ...finalOrder, { order }]
-      );
-      setOrder({}); */
-
-
-    //finalOrder.map((item) => item.folio === order.folio ? { ...item, quantity: 1 } : item);
 
   };
 
@@ -145,9 +135,14 @@ export default function Checkout() {
                         </Button>
                       )
                     }
-                    <Button onClick={() => addOrder()} className={classes.button}>
-                      Añadir orden
-                      </Button>
+                    {
+                      activeStep === 2 && (
+                        <Button onClick={() => addOrder()} className={classes.button}>
+                          Añadir nueva orden
+                        </Button>
+                      )
+                    }
+
                   </div>
                 </React.Fragment>
               )}

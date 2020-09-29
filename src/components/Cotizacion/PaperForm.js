@@ -16,9 +16,6 @@ export default function PaperForm() {
 
   const { paper, setPaper, setFullPaperName, setOrder, order } = useContext(UserContext);
 
-  ///const [value, setValue] = useState('')
-
-
   const handleChange = (e) => {
     //setValue(event.target.value);
     setPaper(e.target.value);
