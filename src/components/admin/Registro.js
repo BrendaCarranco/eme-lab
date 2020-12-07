@@ -13,6 +13,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import TextField from '@material-ui/core/TextField';
 import { firestore, functions } from 'firebase';
 
 const useStyles = makeStyles((theme) => ({
@@ -55,10 +56,24 @@ const ModalRegister = ({ setRegister, history }) => {
     const classes = useStyles();
 
     const [users, setUsers] = useState([]);
+    const [search, setSearch] = useState('');
+    const [filteredUsers, setFilteredUsers] = useState([]);
+
+    /*     const filteredUsers = users.filter(user => {
+            return user.displayName.toLowerCase().includes(search.toLowerCase());
+        }); */
 
     useEffect(() => {
         fetchUsuarios();
     }, []);
+
+    useEffect(() => {
+        setFilteredUsers(
+            users.filter(user => {
+                return user.displayName.toLowerCase().includes(search.toLocaleLowerCase());
+            })
+        );
+    }, [search, users]);
 
     const fetchUsuarios = async () => {
         try {
@@ -133,6 +148,10 @@ const ModalRegister = ({ setRegister, history }) => {
                         <Typography component="h1" variant="h5">
                             Miembros
         </Typography>
+
+                        <TextField id="outlined-search" label="Buscar" type="search" variant="outlined" onChange={e => setSearch(e.target.value)} />
+
+
                         <Table className='black-text'>
                             <TableHead>
                                 <TableRow>
@@ -144,7 +163,7 @@ const ModalRegister = ({ setRegister, history }) => {
                             </TableHead>
                             <TableBody>
                                 {
-                                    users.map(user => (
+                                    filteredUsers.map(user => (
                                         <TableRow key={user.uid}>
 
                                             <TableCell>{user.displayName}</TableCell>
